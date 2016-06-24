@@ -94,30 +94,30 @@ server.route({
   method: 'GET',
   path: '/',
   config: {
-  handler: function (request, reply) {
-    YourModel.find({}, (err, result) => {
-      if (err) return reply(Boom.badRequest(err));
-      if (!result) return reply(Boom.notFound());
+    handler: function (request, reply) {
+      YourModel.find({}, (err, result) => {
+        if (err) return reply(Boom.badRequest(err));
+        if (!result) return reply(Boom.notFound());
 
-      return reply.bissle({ result });
-    });
-  },
-		plugins: {
-	    hal: {
-				prepare: function(rep, next) {
-					_.forEach(rep.entity.result, task => {
-						rep.embed('task', `./${task._id}`,task);
-					});
+        return reply.bissle({ result });
+      });
+    },
+    plugins: {
+      hal: {
+        prepare: function(rep, next) {
+          _.forEach(rep.entity.result, task => {
+            rep.embed('task', `./${task._id}`, task);
+          });
 
-					_.forOwn(rep.entity.links, (href, entity) => {
-						rep.link(entity, url.parse(href).path);
-					});
+          _.forOwn(rep.entity.links, (href, entity) => {
+            rep.link(entity, url.parse(href).path);
+          });
 
-					return next();
-				},
-	      ignore: ['result', 'links']
-		  }
-		}
+          return next();
+        },
+        ignore: ['result', 'links']
+      }
+    }
 });
 
 server.register([bissle, halacious], err => {
