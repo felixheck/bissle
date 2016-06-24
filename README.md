@@ -1,7 +1,7 @@
 # bissle
 #### Minimal HALicious pagination reply interface for [HapiJS](https://github.com/hapijs/hapi)
 
-[![Travis](https://img.shields.io/travis/felixheck/bissle.svg?maxAge=2592000)](https://travis-ci.org/felixheck/bissle/builds/) ![npm](https://img.shields.io/npm/dt/doila.svg?maxAge=2592000)
+[![Travis](https://img.shields.io/travis/felixheck/bissle.svg)](https://travis-ci.org/felixheck/bissle/builds/) ![npm](https://img.shields.io/npm/dt/doila.svg)
 
 ---
 
