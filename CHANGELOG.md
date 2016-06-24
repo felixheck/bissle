@@ -6,6 +6,7 @@
 - **doc:** remove logo
 - **add:** test specification demo
 - **doc:** remove caching for badges
+- **doc:** fix examples dependencies
 
 ### [v0.0.1] - 2016-06-24
 - **add:** initial files

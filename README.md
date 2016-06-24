@@ -83,6 +83,7 @@ const bissle = require('bissle');
 const halacious = require('halacious');
 const Boom = require('boom');
 const url = require('url');
+const _ = require('lodash');
 const YourModel = require('./models/yourModel');
 
 const server = new Hapi.Server();
