@@ -4,6 +4,7 @@
 - **doc:** fix flaws
 - **doc:** reformat options
 - **doc:** adjust description
+- **doc:** fix flaws
 
 ### [v0.0.2] - 2016-06-24
 - **doc:** change logo title
