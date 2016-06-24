@@ -1,5 +1,3 @@
-![bissle](https://raw.githubusercontent.com/felixheck/bissle/master/logo.png)
-
 # bissle
 #### Minimal HALicious pagination reply interface for [HapiJS](https://github.com/hapijs/hapi)
 
