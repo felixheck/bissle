@@ -16,7 +16,7 @@
 
 ## Introduction
 
-This [hapi](https://github.com/hapijs/hapi) plugin enables an additional reply interface to paginate a response in a RESTful and [HAL](https://tools.ietf.org/html/draft-kelly-json-hal-06) compliant manner. So the plugin accordingly splices the initial response; extends it with meta information about the count of entries per page, the total count and the current page; adds a link map for HALicious navigation and appends the corresponding `Link` header. It is not a middleware-like plugin, so you are allowed to control the usage explicitly by yourself. Because of this, it works perfectly in combination with HAL plugins like [halacious](https://github.com/bleupen/halacious), as it is shown in the [example](#example) below.
+This [HapiJS](https://github.com/hapijs/hapi) plugin enables an additional reply interface to paginate a response in a RESTful and [HAL](https://tools.ietf.org/html/draft-kelly-json-hal-06) compliant manner. So the plugin accordingly splices the initial response; extends it with meta information about the count of entries per page, the total count and the current page; adds a link map for HALicious navigation and appends the corresponding `Link` header. It is not a middleware-like plugin, so you are allowed to control the usage explicitly by yourself. Because of this, it works perfectly in combination with HAL plugins like [halacious](https://github.com/bleupen/halacious), as it is shown in the [example](#example) below.
 
 The plugin is implemented in ECMAScript 6, therefore the development dependencies are based on `babel`. Additionally `eslint` and `tape` are used to grant a high quality implementation.
 
