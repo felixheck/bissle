@@ -40,8 +40,8 @@ First you have to import the module:
 const bissle = require('bissle');
 ```
 
-#### Create hapi server
-Afterwards create your hapi server and the corresponding connection if not already done:
+#### Create HapiJS server
+Afterwards create your **HapiJS** server and the corresponding connection if not already done:
 ``` js
 const server = new Hapi.Server();
 
@@ -63,7 +63,7 @@ server.register(bissle, err => {
 });
 ```
 
-After registering `bissle`, the [hapi reply interface](hapijs.com/api#reply-interface) will be decorated with the new method `reply.bissle()`.
+After registering **bissle**, the [HapiJS reply interface](hapijs.com/api#reply-interface) will be decorated with the new method `reply.bissle()`.
 
 ## API
 `reply.bissle(response, [options])`
@@ -76,6 +76,7 @@ Returns an URI to a route
   - `page {number}` - The default page if none is defined in the query string.<br>Default: `1`.
 
 ##Example
+The following example demonstrates the usage of **bissle** in combination with **mongoose**, **halacious** and various utilities.
 
 ```js
 const Hapi = require('hapi');
@@ -127,6 +128,111 @@ server.register([bissle, halacious], err => {
   server.start();
 });
 ```
+
+---
+
+Assuming that **mongoose**'s `find()` returns the following data as `result`:
+
+```js
+[
+  {
+    _id: "abc",
+    title: "abc"
+  },
+  {
+    _id: "def",
+    title: "def"
+  },
+  {
+    _id: "ghi",
+    title: "ghi"
+  },
+  {
+    _id: "jkl",
+    title: "jkl"
+  },
+  {
+    _id: "mno",
+    title: "mno"
+  }
+]
+```
+
+---
+
+Requesting the route `/items?page=2&per_page=2`, the plugin replies:
+
+```js
+{
+  page: 2,
+  per_page: 2,
+  total: 5,
+  result: [
+    {
+      _id: "ghi",
+      title: "ghi"
+    },
+    {
+      _id: "jkl",
+      title: "jkl"
+    }
+  ],
+  links: {
+    first: "/items?per_page=2",
+    last: "/items?page=3&per_page=2"
+  }
+}
+
+```
+
+In some other cases there could be a `prev` and/or `next` link.<br>
+Additionally the plugin sets the corresponding `Link` header.
+
+---
+
+The **halacious** plugin enables to extend this response to:
+
+```js
+{
+  _links: {
+    self: {
+      href: "/items?page=2&per_page=2"
+    },
+    first: {
+      href: "/items?per_page=2"
+    },
+    last: {
+      href: "/items?page=3&per_page=2"
+    },
+  },
+  page: 2,
+  per_page: 2,
+  total: 5,
+  _embedded: [
+    {
+      _links: {
+        self: {
+          href: "/items/ghi"
+        }
+      },
+      _id: "ghi",
+      title: "ghi"
+    },
+    {
+      _links: {
+        self: {
+          href: "/items/jkl"
+        }
+      },
+      _id: "jkl",
+      title: "jkl"
+    }
+  ]
+}
+
+```
+
+So in the end the combination of **bissle** and a HAL plugin results in a REST/HAL compliant and paginated response.
 
 ## Testing
 First you have to install all dependencies:
