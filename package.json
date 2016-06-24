@@ -1,0 +1,69 @@
+{
+  "name": "bissle",
+  "description": "Minimal HALicious pagination reply interface for HapiJS",
+  "keywords": [
+    "hapi",
+    "hal",
+    "rest",
+    "paginate",
+    "pagination",
+    "reply",
+    "interface"
+  ],
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": {
+    "name": "Felix Heck",
+    "email": "hi@whoTheHeck.de",
+    "url": "http://whoTheHeck.de"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/felixheck/bissle.git"
+  },
+  "bugs": {
+    "email": "hi@whoTheHeck.com",
+    "url": "https://github.com/felixheck/bissle/issues"
+  },
+  "main": "./lib/index.js",
+  "config": {
+    "tapeOptions": "-r babel-core/register test/**/*.spec.js"
+  },
+  "scripts": {
+    "build": "babel -d lib src",
+    "coverage": "NODE_ENV=test istanbul cover tape -- $npm_package_config_tapeOptions | tap-spec",
+    "lint": "eslint --ext .js src",
+    "start": "watch 'npm test' src test --wait 5 --interval 1",
+    "test": "NODE_ENV=test tape $npm_package_config_tapeOptions | tap-spec",
+    "prebuild": "rm -rf lib",
+    "precoverage": "rm -rf coverage",
+    "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-core": "^6.10.4",
+    "babel-eslint": "^6.1.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "eslint": "2.13.1",
+    "eslint-config-airbnb-base": "^3.0.1",
+    "eslint-plugin-import": "^1.9.2",
+    "eslint-plugin-jsx-a11y": "^1.5.3",
+    "hapi": "^13.4.1",
+    "istanbul": "^1.0.0-alpha.2",
+    "sinon": "^1.17.4",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.0",
+    "watch": "^0.19.1"
+  },
+  "dependencies": {
+    "akaya": "0.1.1",
+    "boom": "^3.2.2",
+    "hoek": "^4.0.1",
+    "joi": "^8.4.2",
+    "lodash": "^4.13.1"
+  },
+  "peerDependencies": {
+    "hapi": "13.x.x"
+  }
+}

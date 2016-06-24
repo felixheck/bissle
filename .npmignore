@@ -1,0 +1,23 @@
+# IDE files
+.idea
+
+# ES6 source files
+src/
+
+# Dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Coverage
+coverage
+
+# Documentation
+docs
