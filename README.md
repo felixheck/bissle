@@ -71,9 +71,9 @@ After registering `bissle`, the [hapi reply interface](hapijs.com/api#reply-inte
 Returns an URI to a route
 - `response {Object}` - the result to be decorated and replied
 - `options`
-  - `key {string}` - The access key of `response` to get the result to be paginated. Default: `result`.
+  - `key {string}` - The access key of `response` to get the result to be paginated.<br>Default: `result`.
   - `per_page {number}` - The default entries per page if none is defined in the query string.<br>Default: `100` and maximum: `500`.
-  - `page {number}` - The default page if none is defined in the query string. Default: `1`.
+  - `page {number}` - The default page if none is defined in the query string.<br>Default: `1`.
 
 ##Example
 
