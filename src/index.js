@@ -21,8 +21,8 @@ const internals = {
   scheme: {
     per_page: Joi.number()
       .integer()
-      .min(1).
-      max(500)
+      .min(1)
+      .max(500)
       .default(100),
     page: Joi.number()
       .integer()
@@ -161,7 +161,7 @@ function getLinkHeader(links) {
 function bissle(server, pluginOptions, next) {
   server.dependency('akaya');
 
-  server.expose('schema', internals.scheme);
+  server.expose('scheme', internals.scheme);
 
   server.decorate('reply', 'bissle', function decorator(res, options) {
     internals.aka = this.request::this.request.aka;
