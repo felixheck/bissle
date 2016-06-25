@@ -77,19 +77,20 @@ function validateQuery(query, options) {
  * @param {string} id The endpoint ID
  * @param {number} per_page The number of entries per page
  * @param {Object} options The related options
+ * @param {Object} query The related query parameters
  * @returns {Function} The predefined pagination link generator
  */
-function getPaginationLink(id, per_page, options) {
+function getPaginationLink(id, per_page, options, query) {
   per_page = per_page === options.per_page ? undefined : per_page;
 
   return page => {
     page = page === 1 ? undefined : page;
 
     return internals.aka(id, {
-      query: {
+      query: Object.assign({}, query, {
         page,
         per_page,
-      },
+      }),
     });
   };
 }
@@ -106,10 +107,11 @@ function getPaginationLink(id, per_page, options) {
  * @param {number} per_page The number of entries per page
  * @param {number} total The total number of entries
  * @param {Object} options The related options
+ * @param {Object} query The related query parameters
  * @returns {Object.<?string} The mapping of pagination links
  */
-function getPaginationLinks(id, page, per_page, total, options) {
-  const getLink = getPaginationLink(id, per_page, options);
+function getPaginationLinks(id, page, per_page, total, options, query) {
+  const getLink = getPaginationLink(id, per_page, options, query);
   const lastPage = Math.ceil(total / per_page);
   const links = {
     first: getLink(undefined),
@@ -185,7 +187,7 @@ function bissle(server, pluginOptions, next) {
       return this.response(Boom.badRequest(errors.missingId));
     }
 
-    const links = getPaginationLinks(id, page, per_page, total, options);
+    const links = getPaginationLinks(id, page, per_page, total, options, this.request.query);
     const linkHeader = getLinkHeader(links);
 
     this.response(Object.assign(res, {

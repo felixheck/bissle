@@ -6,6 +6,7 @@
 - **fix:** flaws
 - **fix:** change max-len eslint rule
 - **fix:** wrong tests
+- **fix:** missing left query parameters in HAL navigation links
 
 ### [v0.1.2] - 2016-06-25
 - **fix:** fix flaws
