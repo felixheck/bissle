@@ -35,9 +35,10 @@ $ git clone https://github.com/felixheck/bissle
 
 ## Usage
 #### Import
-First you have to import the module:
+First you have to import the module and the peer dependency [akaya](https://github.com/felixheck/akaya):
 ``` js
 const bissle = require('bissle');
+const akaya = require('akaya');
 ```
 
 #### Create HapiJS server
@@ -52,9 +53,9 @@ server.connection({
 ```
 
 #### Registration
-Finally register the plugin per `server.register()`:
+Finally register the plugins per `server.register()`:
 ``` js
-server.register(bissle, err => {
+server.register([akaya, bissle], err => {
   if (err) {
     throw err;
   }
@@ -65,6 +66,9 @@ server.register(bissle, err => {
 
 After registering **bissle**, the [HapiJS reply interface](hapijs.com/api#reply-interface) will be decorated with the new method `reply.bissle()`.
 
+#### Joi Validation
+If you use **Joi** for request validation, simply add `per_page` and `page` to the query schema. The plugin exposes the related scheme via `server.plugins.bissle.schema`. Alternatively it is possible to enable the `allowUnknown` option.
+
 ## API
 `reply.bissle(response, [options])`
 
@@ -72,8 +76,7 @@ Returns an URI to a route
 - `response {Object}` - the result to be decorated and replied
 - `options`
   - `key {string}` - The access key of `response` to get the result to be paginated.<br>Default: `result`.
-  - `per_page {number}` - The default entries per page if none is defined in the query string.<br>Default: `100` and maximum: `500`.
-  - `page {number}` - The default page if none is defined in the query string.<br>Default: `1`.
+  - `per_page {number}` - The default entries per page if none is defined in the query string.<br>Default: `100`<br>Minimum: `1` and maximum: `500`.
 
 ##Example
 The following example demonstrates the usage of **bissle** in combination with **mongoose**, **halacious** and various utilities.
@@ -82,6 +85,7 @@ The following example demonstrates the usage of **bissle** in combination with *
 const Hapi = require('hapi');
 const bissle = require('bissle');
 const halacious = require('halacious');
+const akaya = require('akaya');
 const Boom = require('boom');
 const url = require('url');
 const _ = require('lodash');
@@ -120,7 +124,7 @@ server.route({
     }
 });
 
-server.register([bissle, halacious], err => {
+server.register([akaya, bissle, halacious], err => {
   if (err) {
      throw err;
   }
