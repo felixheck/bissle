@@ -22,16 +22,27 @@ const setup = (options) => {
     host: 'localhost'
   });
 
-  fixtures.server.route({
-    method: 'GET',
-    path: '/',
-    config: {
-      id: 'foo',
-      handler: function (request, reply) {
-        return reply.bissle({result: Array.from(mockResponse)}, options)
+  fixtures.server.route([
+    {
+      method: 'GET',
+      path: '/',
+      config: {
+        id: 'foo',
+        handler: function (request, reply) {
+          return reply.bissle({result: Array.from(mockResponse)}, options)
+        },
       },
     },
-  });
+    {
+      method: 'GET',
+      path: '/page',
+      config: {
+        handler: function (request, reply) {
+          return reply.bissle({result: Array.from(mockResponse)}, options)
+        },
+      },
+    },
+  ]);
   
   fixtures.server.register([akaya, plugin], err => {});
 
