@@ -1,5 +1,7 @@
 const Hapi = require('hapi');
+const akaya = require('akaya');
 const plugin = require('../src');
+const mockResponse = require('./index.mock');
 
 /**
  * @function
@@ -10,7 +12,7 @@ const plugin = require('../src');
  * 
  * @returns {Object} The needed fixtures
  */
-const setup = () => {
+const setup = (options) => {
   const fixtures = {
     server: new Hapi.Server(),
   };
@@ -20,7 +22,18 @@ const setup = () => {
     host: 'localhost'
   });
 
-  fixtures.server.register(plugin, err => {});
+  fixtures.server.route({
+    method: 'GET',
+    path: '/',
+    config: {
+      id: 'foo',
+      handler: function (request, reply) {
+        return reply.bissle({result: Array.from(mockResponse)}, options)
+      },
+    },
+  });
+  
+  fixtures.server.register([akaya, plugin], err => {});
 
   return fixtures;
 };
