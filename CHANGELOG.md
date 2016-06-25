@@ -10,6 +10,7 @@
 - **fix:** fix linting errors
 - **add:** test mock data
 - **fix:** adjust test setup
+- **fix:** change camelcase eslint rule
 
 ### [v0.0.2] - 2016-06-24
 - **doc:** change logo title
