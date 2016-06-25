@@ -13,6 +13,7 @@ const mockResponse = require('./index.mock');
  * @returns {Object} The needed fixtures
  */
 const setup = (options) => {
+  const key = options && options.key || 'result';
   const fixtures = {
     server: new Hapi.Server(),
   };
@@ -29,7 +30,7 @@ const setup = (options) => {
       config: {
         id: 'foo',
         handler: function (request, reply) {
-          return reply.bissle({result: Array.from(mockResponse)}, options)
+          return reply.bissle({ [key]: Array.from(mockResponse) }, options)
         },
       },
     },
@@ -38,7 +39,7 @@ const setup = (options) => {
       path: '/page',
       config: {
         handler: function (request, reply) {
-          return reply.bissle({result: Array.from(mockResponse)}, options)
+          return reply.bissle({ [key]: Array.from(mockResponse) }, options)
         },
       },
     },
