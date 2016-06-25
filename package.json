@@ -63,6 +63,7 @@
     "lodash": "^4.13.1"
   },
   "peerDependencies": {
+    "akaya": "0.x.x",
     "hapi": "13.x.x"
   }
 }
