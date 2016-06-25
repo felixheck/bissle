@@ -1,5 +1,7 @@
 const Joi = require('joi');
-const Hoek = require('hoek');
+const Boom = require('boom');
+const _ = require('lodash');
+const errors = require('./errors');
 const pkg = require('../package.json');
 
 /**
@@ -11,22 +13,59 @@ const pkg = require('../package.json');
  */
 const internals = {
   aka: null,
+  max_per_page: 500,
+  defaults: {
+    per_page: 100,
+    key: 'result',
+  },
   scheme: {
-    options: {
-      per_page: Joi.number()
-        .integer()
-        .min(1).
-        max(500)
-        .default(100),
-      page: Joi.number()
-        .integer()
-        .min(1)
-        .default(1),
-      key: Joi.string()
-        .default('result'),
-    },
+    per_page: Joi.number()
+      .integer()
+      .min(1).
+      max(500)
+      .default(100),
+    page: Joi.number()
+      .integer()
+      .min(1)
+      .default(1),
   },
 };
+
+/**
+ * @function
+ * @private
+ *
+ * @description
+ * Validate the passed in options
+ *
+ * @param {Object} options The options to be validated
+ * @returns {boolean} The options are valid
+ */
+function validateOptions(options) {
+  options.per_page = _.toInteger(options.per_page);
+
+  return _.isString(options.key)
+    && _.inRange(options.per_page, 1, internals.max_per_page + 1);
+}
+
+/**
+ * @function
+ * @private
+ *
+ * @description
+ * Validate the passed query parameters
+ *
+ * @param {Object} query The query object to be validated
+ * @param {Object} options The related options
+ * @returns {Object} The query parameters are valid
+ */
+function validateQuery(query, options) {
+  query.per_page = _.toInteger(query.per_page || options.per_page);
+  query.page = _.toInteger(query.page || 1);
+
+  return query.page >= 1
+    && _.inRange(query.per_page, 1, internals.max_per_page + 1);
+}
 
 /**
  * @function
@@ -36,17 +75,17 @@ const internals = {
  * Get pagination link generator with predefined values
  *
  * @param {string} id The endpoint ID
- * @param {number} perPage The number of entries per page
+ * @param {number} per_page The number of entries per page
  * @param {Object} options The related options
  * @returns {Function} The predefined pagination link generator
  */
-function getPaginationLink(id, perPage, options) {
-  perPage = perPage === options.per_page ? undefined : perPage;
+function getPaginationLink(id, per_page, options) {
+  per_page = per_page === options.per_page ? undefined : per_page;
 
   return page => (internals.aka(id, {
     query: {
       page,
-      per_page: perPage,
+      per_page,
     },
   }));
 }
@@ -60,31 +99,25 @@ function getPaginationLink(id, perPage, options) {
  *
  * @param {string} id The endpoint ID
  * @param {number} page The requested page
- * @param {number} perPage The number of entries per page
+ * @param {number} per_page The number of entries per page
  * @param {number} total The total number of entries
  * @param {Object} options The related options
  * @returns {Object.<?string} The mapping of pagination links
  */
-function getPaginationLinks(id, page, perPage, total, options) {
-  const getLink = getPaginationLink(id, perPage, options);
-  const lastPage = Math.ceil(total / perPage);
-  const links = {};
+function getPaginationLinks(id, page, per_page, total, options) {
+  const getLink = getPaginationLink(id, per_page, options);
+  const lastPage = Math.ceil(total / per_page);
+  const links = {
+    first: getLink(undefined),
+    last: getLink(lastPage),
+  };
 
-
-  if (page !== options.page) {
-    links.first = getLink(undefined);
-  }
-
-  if (page > options.page + 1 && page <= lastPage) {
+  if (page > 2 && page <= lastPage) {
     links.prev = getLink(page - 1);
   }
 
   if (page < lastPage - 1) {
     links.next = getLink(page + 1);
-  }
-
-  if (page !== lastPage) {
-    links.last = getLink(lastPage);
   }
 
   return links;
@@ -103,11 +136,11 @@ function getPaginationLinks(id, page, perPage, total, options) {
 function getLinkHeader(links) {
   const linkHeader = [];
 
-  for (const [entity, href] of Object.entries(links)) {
+  _.forOwn(links, (entity, href) => {
     linkHeader.push(`<${href}>; rel="${entity}"`);
-  }
+  });
 
-  return linkHeader.join(', ') || undefined;
+  return linkHeader.join(', ');
 }
 
 /**
@@ -122,30 +155,45 @@ function getLinkHeader(links) {
  * @param {Function} next The callback to continue in the chain of plugins
  */
 function bissle(server, pluginOptions, next) {
-  server.decorate('reply', 'bissle', function decorator(res, options = {}) {
-    options = Joi.attempt(options, internals.scheme.options);
-    internals.aka = this.request::this.request.aka;
+  server.dependency('akaya');
 
+  server.expose('schema', internals.scheme);
+
+  server.decorate('reply', 'bissle', function decorator(res, options) {
+    internals.aka = this.request::this.request.aka;
+    options = Object.assign({}, internals.defaults, options);
+
+    if (!validateOptions(options)) {
+      return this.response(Boom.badRequest(errors.invalidOptions));
+    }
+
+    if (!validateQuery(this.request.query, options)) {
+      return this.response(Boom.badRequest(errors.invalidQuery));
+    }
+
+    const { page, per_page } = this.request.query;
+    const offset = (page - 1) * per_page;
     const total = res[options.key].length;
-    const page = parseInt(this.request.query.page, 10);
-    const perPage = parseInt(this.request.query.per_page, 10);
-    const offset = (page - 1) * perPage;
-    const result = res[options.key].splice(offset, perPage);
+    const result = res[options.key].splice(offset, per_page);
     const id = this.request.route.settings.id;
 
-    const links = getPaginationLinks(id, page, perPage, total, options);
+    if (!id) {
+      return this.response(Boom.badRequest(errors.missingId));
+    }
+
+    const links = getPaginationLinks(id, page, per_page, total, options);
     const linkHeader = getLinkHeader(links);
 
     this.response(Object.assign(res, {
+      per_page,
       result,
-      per_page: perPage,
       page,
       total,
       links,
     })).header('link', linkHeader);
   });
 
-  next();
+  return next();
 }
 
 bissle.attributes = {
