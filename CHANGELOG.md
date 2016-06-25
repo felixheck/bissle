@@ -1,6 +1,7 @@
 # master
 
 ### unreleased
+- **fix:** fix flaws
 
 ### [v0.1.1] - 2016-06-25
 - **upg:** akaya (-> 0.1.2)

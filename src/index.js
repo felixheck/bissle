@@ -82,7 +82,7 @@ function validateQuery(query, options) {
 function getPaginationLink(id, per_page, options) {
   per_page = per_page === options.per_page ? undefined : per_page;
 
-  return page => (internals.aka(id, {
+  return page => {(internals.aka(id, {
     query: {
       page,
       per_page,
@@ -131,7 +131,7 @@ function getPaginationLinks(id, page, per_page, total, options) {
  * Get Link header value based on pagination links
  *
  * @param {Object.<?string>} links The entity/href mapping of pagination links
- * @returns {string | undefined} Parsed Link header value if links available
+ * @returns {string} Parsed Link header value if links available
  */
 function getLinkHeader(links) {
   const linkHeader = [];
