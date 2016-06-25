@@ -5,6 +5,7 @@
 - **fix:** errors line breaks
 - **fix:** flaws
 - **fix:** change max-len eslint rule
+- **fix:** wrong tests
 
 ### [v0.1.2] - 2016-06-25
 - **fix:** fix flaws
