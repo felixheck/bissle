@@ -2,6 +2,7 @@
 
 ### unreleased
 - **fix:** fix flaws
+- **fix:** unset page query parameter in href if equals 1
 
 ### [v0.1.1] - 2016-06-25
 - **upg:** akaya (-> 0.1.2)

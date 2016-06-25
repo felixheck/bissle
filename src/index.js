@@ -82,12 +82,16 @@ function validateQuery(query, options) {
 function getPaginationLink(id, per_page, options) {
   per_page = per_page === options.per_page ? undefined : per_page;
 
-  return page => {(internals.aka(id, {
-    query: {
-      page,
-      per_page,
-    },
-  }));
+  return page => {
+    page = page === 1 ? undefined : page;
+
+    return internals.aka(id, {
+      query: {
+        page,
+        per_page,
+      },
+    });
+  };
 }
 
 /**
