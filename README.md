@@ -67,7 +67,7 @@ server.register([akaya, bissle], err => {
 After registering **bissle**, the [HapiJS reply interface](hapijs.com/api#reply-interface) will be decorated with the new method `reply.bissle()`.
 
 #### Joi Validation
-If you use **Joi** for request validation, simply add `per_page` and `page` to the query schema. The plugin exposes the related scheme via `server.plugins.bissle.scheme`. Alternatively it is possible to enable the `allowUnknown` option.
+If you use **Joi** for request validation, simply add `per_page` and `page` to the query scheme. The plugin exposes the related scheme via `server.plugins.bissle.scheme`. Alternatively it is possible to enable the `allowUnknown` option.
 
 ## API
 `reply.bissle(response, [options])`
