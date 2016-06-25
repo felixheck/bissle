@@ -96,3 +96,11 @@ test('bissle >> route have no defined ID', t => {
     t.end();
   });
 });
+
+test('bissle >> exposed query schema', t => {
+  const { server } = setup();
+
+  t.deepEqual(_.keys(server.plugins.bissle.schema).sort(), ['page', 'per_page']);
+  t.equal(server.plugins.bissle.schema.page.isJoi, true);
+  t.end();
+});
