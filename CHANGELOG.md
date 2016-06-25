@@ -1,6 +1,8 @@
 # master
 
 ### unreleased
+
+### [v0.1.2] - 2016-06-25
 - **fix:** fix flaws
 - **fix:** unset page query parameter in href if equals 1
 - **doc:** update CHANGELOG.md
