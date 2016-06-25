@@ -1,6 +1,8 @@
 # master
 
 ### unreleased
+
+### [v0.1.0] - 2016-06-25
 - **doc:** fix flaws
 - **doc:** reformat options
 - **doc:** adjust description
@@ -19,6 +21,7 @@
 - **fix:** add tests for the general usage
 - **fix:** refactor plugin
 - **doc:** adjust and extend docs
+- **doc:** update CHANGELOG.md
 
 ### [v0.0.2] - 2016-06-24
 - **doc:** change logo title
