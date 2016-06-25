@@ -3,6 +3,7 @@
 ### unreleased
 - **fix:** flaws
 - **fix:** errors line breaks
+- **fix:** flaws
 
 ### [v0.1.2] - 2016-06-25
 - **fix:** fix flaws
