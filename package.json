@@ -1,6 +1,6 @@
 {
   "name": "bissle",
-  "description": "Minimal HALicious pagination reply interface for HapiJS",
+  "description": "Minimalist HALicious pagination reply interface for HapiJS",
   "keywords": [
     "hapi",
     "hal",
@@ -51,7 +51,6 @@
     "eslint-plugin-jsx-a11y": "^1.5.3",
     "hapi": "^13.4.1",
     "istanbul": "^1.0.0-alpha.2",
-    "sinon": "^1.17.4",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.0",
     "watch": "^0.19.1"

@@ -17,7 +17,6 @@
     "new-cap": [2, { "newIsCap": true, "capIsNew": false }],
     "no-underscore-dangle": 0,
     "no-restricted-syntax": [2, "DebuggerStatement", "LabeledStatement", "WithStatement"],
-    "camelcase": 1,
-    "max-len": 1
+    "camelcase": 1
   }
 }

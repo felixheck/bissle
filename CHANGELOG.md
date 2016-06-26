@@ -2,6 +2,7 @@
 
 ### unreleased
 
+### [v0.2.0] - 2016-06-26
 - **fix:** flaws
 - **fix:** errors line breaks
 - **fix:** flaws
@@ -9,6 +10,8 @@
 - **fix:** wrong tests
 - **fix:** missing left query parameters in HAL navigation links
 - **fix:** flaws
+- **fix:** refactor and cleanup several files
+- **doc:** update CHANGELOG.md
 
 ### [v0.1.2] - 2016-06-25
 - **fix:** fix flaws

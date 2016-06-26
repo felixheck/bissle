@@ -1,5 +1,5 @@
 # bissle
-#### Minimal HALicious pagination reply interface for [HapiJS](https://github.com/hapijs/hapi)
+#### Minimalist HALicious pagination reply interface for [HapiJS](https://github.com/hapijs/hapi)
 
 [![Travis](https://img.shields.io/travis/felixheck/bissle.svg)](https://travis-ci.org/felixheck/bissle/builds/) ![npm](https://img.shields.io/npm/dt/doila.svg)
 
@@ -19,6 +19,8 @@
 This [HapiJS](https://github.com/hapijs/hapi) plugin enables an additional reply interface to paginate a response in a RESTful and [HAL](https://tools.ietf.org/html/draft-kelly-json-hal-06) compliant manner. So the plugin accordingly splices the initial response; extends it with meta information about the count of entries per page, the total count and the current page; adds a link map for HALicious navigation and appends the corresponding `Link` header. It is not a middleware-like plugin, so you are allowed to control the usage explicitly by yourself. Because of this, it works perfectly in combination with HAL plugins like [halacious](https://github.com/bleupen/halacious), as it is shown in the [example](#example) below.
 
 The plugin is implemented in ECMAScript 6, therefore the development dependencies are based on `babel`. Additionally `eslint` and `tape` are used to grant a high quality implementation.
+
+**bissle** is the Swabian term for *a little bit*, it should visualize the sense of pagination.
 
 ## Installation
 For installation use the [Node Package Manager](https://github.com/npm/npm):
@@ -73,10 +75,10 @@ If you use **Joi** for request validation, simply add `per_page` and `page` to t
 `reply.bissle(response, [options])`
 
 Returns an URI to a route
-- `response {Object}` - the result to be decorated and replied
-- `options`
-  - `key {string}` - The access key of `response` to get the result to be paginated.<br>Default: `result`.
-  - `per_page {number}` - The default entries per page if none is defined in the query string.<br>Default: `100`<br>Minimum: `1` and maximum: `500`.
+- `response {Object}` - The result to be decorated and replied
+- `options {Object}` - The custom default values
+  - `key {string}` - The access key of `response` to get the result to be paginated.<br>Default: `'result'`.
+  - `per_page {number}` - The default entries per page if none is defined in the query string.<br>Default: `100`<br>Range: `1-500`.
 
 ##Example
 The following example demonstrates the usage of **bissle** in combination with **mongoose**, **halacious** and various utilities.
@@ -183,13 +185,14 @@ Requesting the route `/items?page=2&per_page=2`, the plugin replies:
   ],
   links: {
     first: "/items?per_page=2",
+    prev: "/items?per_page=2",
+    next: "/items?page=3&per_page=2"
     last: "/items?page=3&per_page=2"
   }
 }
 
 ```
 
-In some other cases there could be a `prev` and/or `next` link.<br>
 Additionally the plugin sets the corresponding `Link` header.
 
 ---
@@ -204,6 +207,12 @@ The **halacious** plugin enables to extend this response to:
     },
     first: {
       href: "/items?per_page=2"
+    },
+    prev: {
+          href: "/items?per_page=2"
+        },
+    next: {
+      href: "/items?page=3&per_page=2"
     },
     last: {
       href: "/items?page=3&per_page=2"

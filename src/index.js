@@ -1,3 +1,10 @@
+/*!
+ * @author Felix Heck <hi@whoTheHeck.de>
+ * @version 0.2.0
+ * @copyright Felix Heck 2016
+ * @license MIT
+ */
+
 const Joi = require('joi');
 const Boom = require('boom');
 const _ = require('lodash');
@@ -13,7 +20,6 @@ const pkg = require('../package.json');
  */
 const internals = {
   aka: null,
-  max_per_page: 500,
   defaults: {
     per_page: 100,
     key: 'result',
@@ -36,6 +42,35 @@ const internals = {
  * @private
  *
  * @description
+ * Get parameter value based on the passed condition
+ *
+ * @param {*} param The parameter to be minimized
+ * @param {*} condition The condition to be checked for
+ * @returns {* | undefined} The minimized parameter value
+ */
+function minimizeQueryParameter(param, condition) {
+  return param === condition ? undefined : param;
+}
+
+/**
+ * @function
+ * @private
+ *
+ * @description
+ * Validate the per_page parameter in the query or the options
+ *
+ * @param {number} per_page The per_pafe parameter to be validated
+ * @returns {boolean} The parameter is valid
+ */
+function validatePerPage(per_page) {
+  return _.inRange(per_page, 1, 500 + 1);
+}
+
+/**
+ * @function
+ * @private
+ *
+ * @description
  * Validate the passed in options
  *
  * @param {Object} options The options to be validated
@@ -44,8 +79,7 @@ const internals = {
 function validateOptions(options) {
   options.per_page = _.toInteger(options.per_page);
 
-  return _.isString(options.key)
-    && _.inRange(options.per_page, 1, internals.max_per_page + 1);
+  return _.isString(options.key) && validatePerPage(options.per_page);
 }
 
 /**
@@ -63,8 +97,7 @@ function validateQuery(query, options) {
   query.per_page = _.toInteger(query.per_page || options.per_page);
   query.page = _.toInteger(query.page || 1);
 
-  return query.page >= 1
-    && _.inRange(query.per_page, 1, internals.max_per_page + 1);
+  return query.page >= 1 && validatePerPage(query.per_page);
 }
 
 /**
@@ -81,16 +114,13 @@ function validateQuery(query, options) {
  * @returns {Function} The predefined pagination link generator
  */
 function getPaginationLink(id, per_page, options, query) {
-  per_page = per_page === options.per_page ? undefined : per_page;
+  per_page = minimizeQueryParameter(per_page, options.per_page);
 
   return page => {
-    page = page === 1 ? undefined : page;
+    page = minimizeQueryParameter(page, 1);
 
     return internals.aka(id, {
-      query: Object.assign({}, query, {
-        page,
-        per_page,
-      }),
+      query: Object.assign({}, query, { page, per_page }),
     });
   };
 }
@@ -118,11 +148,11 @@ function getPaginationLinks(id, page, per_page, total, options, query) {
     last: getLink(lastPage),
   };
 
-  if (page > 2 && page <= lastPage) {
+  if (page > 1 && page <= lastPage) {
     links.prev = getLink(page - 1);
   }
 
-  if (page < lastPage - 1) {
+  if (page < lastPage) {
     links.next = getLink(page + 1);
   }
 
@@ -161,9 +191,8 @@ function getLinkHeader(links) {
  * @param {Function} next The callback to continue in the chain of plugins
  */
 function bissle(server, pluginOptions, next) {
-  server.dependency('akaya');
-
   server.expose('scheme', internals.scheme);
+  server.dependency('akaya');
 
   server.decorate('reply', 'bissle', function decorator(res, options) {
     internals.aka = this.request::this.request.aka;
