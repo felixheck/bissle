@@ -40,7 +40,7 @@ test('bissle/options >> adjust the default access key', t => {
   const { server } = setup({ key: 'foo' });
 
   server.inject('/', response => {
-    t.equal(response.result.result.length, 9);
+    t.equal(response.result.foo.length, 9);
     t.equal(response.result.total, 9);
     t.equal(response.result.per_page, 100);
     t.equal(response.result.page, 1);
