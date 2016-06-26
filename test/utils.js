@@ -16,6 +16,7 @@ const setup = (options) => {
   const key = options && options.key || 'result';
   const fixtures = {
     server: new Hapi.Server(),
+    host: 'http://localhost:1337/',
   };
 
   fixtures.server.connection({

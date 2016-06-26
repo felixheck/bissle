@@ -98,11 +98,11 @@ test('bissle >> route have no defined ID', t => {
 });
 
 test('bissle >> append all passed query parameters', t => {
-  const { server } = setup();
+  const { host, server } = setup();
 
   server.inject('/?page=4&per_page=3&fields=foo', response => {
     console.log(response.result.links.first);
-    t.equal(response.result.links.first, 'http://localhost:1337/?per_page=3&fields=foo');
+    t.equal(response.result.links.first, `${host}?per_page=3&fields=foo`);
     t.end();
   });
 });
