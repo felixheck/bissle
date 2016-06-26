@@ -209,8 +209,8 @@ The **halacious** plugin enables to extend this response to:
       href: "/items?per_page=2"
     },
     prev: {
-          href: "/items?per_page=2"
-        },
+      href: "/items?per_page=2"
+    },
     next: {
       href: "/items?page=3&per_page=2"
     },
