@@ -1,8 +1,12 @@
 # master
 
 ### unreleased
+
+### [v0.2.1] - 2016-06-26
 - **fix:** refactor file structure
 - **fix:** order of pagination links
+- **fix:** link header
+- **doc:** update CHANGELOG.md
 
 ### [v0.2.0] - 2016-06-26
 - **fix:** flaws
