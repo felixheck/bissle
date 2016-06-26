@@ -13,10 +13,11 @@ const _ = require('lodash');
 function getLinkHeader(links) {
   const linkHeader = [];
 
-  _.forOwn(links, (entity, href) => {
+  _.forOwn(links, (href, entity) => {
     linkHeader.push(`<${href}>; rel="${entity}"`);
   });
 
+  console.log(linkHeader);
   return linkHeader.join(', ');
 }
 
