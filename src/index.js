@@ -96,10 +96,9 @@ function getPaginationLink(id, per_page, options, query) {
 function getPaginationLinks(id, page, per_page, total, options, query) {
   const getLink = getPaginationLink(id, per_page, options, query);
   const lastPage = Math.ceil(total / per_page);
-  const links = {
-    first: getLink(undefined),
-    last: getLink(lastPage),
-  };
+  const links = {};
+
+  links.first = getLink(undefined);
 
   if (page > 1 && page <= lastPage) {
     links.prev = getLink(page - 1);
@@ -108,6 +107,8 @@ function getPaginationLinks(id, page, per_page, total, options, query) {
   if (page < lastPage) {
     links.next = getLink(page + 1);
   }
+
+  links.last = getLink(lastPage);
 
   return links;
 }

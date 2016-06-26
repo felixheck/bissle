@@ -2,6 +2,7 @@
 
 ### unreleased
 - **fix:** refactor file structure
+- **fix:** order of pagination links
 
 ### [v0.2.0] - 2016-06-26
 - **fix:** flaws
