@@ -101,7 +101,6 @@ test('bissle >> append all passed query parameters', t => {
   const { host, server } = setup();
 
   server.inject('/?page=4&per_page=3&fields=foo', response => {
-    console.log(response.result.links.first);
     t.equal(response.result.links.first, `${host}?per_page=3&fields=foo`);
     t.end();
   });
