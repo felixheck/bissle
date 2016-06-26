@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 /**
  * @function
- * @private
+ * @public
  *
  * @description
  * Get Link header value based on pagination links
