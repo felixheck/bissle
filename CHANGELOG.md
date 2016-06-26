@@ -1,6 +1,7 @@
 # master
 
 ### unreleased
+- **fix:** refactor file structure
 
 ### [v0.2.0] - 2016-06-26
 - **fix:** flaws

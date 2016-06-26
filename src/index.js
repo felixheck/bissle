@@ -7,8 +7,9 @@
 
 const Joi = require('joi');
 const Boom = require('boom');
-const _ = require('lodash');
 const errors = require('./errors');
+const validate = require('./validate');
+const header = require('./header');
 const pkg = require('../package.json');
 
 /**
@@ -50,54 +51,6 @@ const internals = {
  */
 function minimizeQueryParameter(param, condition) {
   return param === condition ? undefined : param;
-}
-
-/**
- * @function
- * @private
- *
- * @description
- * Validate the per_page parameter in the query or the options
- *
- * @param {number} per_page The per_pafe parameter to be validated
- * @returns {boolean} The parameter is valid
- */
-function validatePerPage(per_page) {
-  return _.inRange(per_page, 1, 500 + 1);
-}
-
-/**
- * @function
- * @private
- *
- * @description
- * Validate the passed in options
- *
- * @param {Object} options The options to be validated
- * @returns {boolean} The options are valid
- */
-function validateOptions(options) {
-  options.per_page = _.toInteger(options.per_page);
-
-  return _.isString(options.key) && validatePerPage(options.per_page);
-}
-
-/**
- * @function
- * @private
- *
- * @description
- * Validate the passed query parameters
- *
- * @param {Object} query The query object to be validated
- * @param {Object} options The related options
- * @returns {Object} The query parameters are valid
- */
-function validateQuery(query, options) {
-  query.per_page = _.toInteger(query.per_page || options.per_page);
-  query.page = _.toInteger(query.page || 1);
-
-  return query.page >= 1 && validatePerPage(query.per_page);
 }
 
 /**
@@ -161,26 +114,6 @@ function getPaginationLinks(id, page, per_page, total, options, query) {
 
 /**
  * @function
- * @private
- *
- * @description
- * Get Link header value based on pagination links
- *
- * @param {Object.<?string>} links The entity/href mapping of pagination links
- * @returns {string} Parsed Link header value if links available
- */
-function getLinkHeader(links) {
-  const linkHeader = [];
-
-  _.forOwn(links, (entity, href) => {
-    linkHeader.push(`<${href}>; rel="${entity}"`);
-  });
-
-  return linkHeader.join(', ');
-}
-
-/**
- * @function
  * @public
  *
  * @description
@@ -198,11 +131,11 @@ function bissle(server, pluginOptions, next) {
     internals.aka = this.request::this.request.aka;
     options = Object.assign({}, internals.defaults, options);
 
-    if (!validateOptions(options)) {
+    if (!validate.options(options)) {
       return this.response(Boom.badRequest(errors.invalidOptions));
     }
 
-    if (!validateQuery(this.request.query, options)) {
+    if (!validate.query(this.request.query, options)) {
       return this.response(Boom.badRequest(errors.invalidQuery));
     }
 
@@ -217,7 +150,7 @@ function bissle(server, pluginOptions, next) {
     }
 
     const links = getPaginationLinks(id, page, per_page, total, options, this.request.query);
-    const linkHeader = getLinkHeader(links);
+    const linkHeader = header.getLink(links);
 
     this.response(Object.assign(res, {
       per_page,
