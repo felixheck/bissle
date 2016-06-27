@@ -7,6 +7,7 @@
 - **rmv:** left console logs
 - **doc:** fix flaw
 - **fix:** exposing of result
+- **add:** tests for validate.options
 
 ### [v0.2.1] - 2016-06-26
 - **fix:** refactor file structure
