@@ -10,6 +10,7 @@
 - **add:** tests for validate.options
 - **add:** tests for validate.query
 - **fix:** tests for validate.query
+- **rmv:** left console logs
 
 ### [v0.2.1] - 2016-06-26
 - **fix:** refactor file structure

@@ -17,7 +17,6 @@ function getLinkHeader(links) {
     linkHeader.push(`<${href}>; rel="${entity}"`);
   });
 
-  console.log(linkHeader);
   return linkHeader.join(', ');
 }
 
