@@ -1,7 +1,5 @@
 const test = require('tape').test;
-const _ = require('lodash');
 const validate = require('../src/validate');
-const errors = require('../src/errors');
 
 test('bissle/validate.options >> is valid', t => {
   const options = {
