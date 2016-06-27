@@ -1,6 +1,8 @@
 # master
 
 ### unreleased
+
+### [v0.3.0] - 2016-06-27
 - **add:** expose localhost
 - **add:** test files for header and validations
 - **fix:** doc block
@@ -13,6 +15,7 @@
 - **rmv:** left console logs
 - **fix:** unset link header if no links are available
 - **add:** tests for header
+- **doc:** update CHANGELOG.md
 
 ### [v0.2.1] - 2016-06-26
 - **fix:** refactor file structure
