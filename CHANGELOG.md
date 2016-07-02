@@ -1,6 +1,7 @@
 # master
 
 ### unreleased
+- **upg:** eslint-plugin-import (-> 1.10.0)
 
 ### [v0.3.0] - 2016-06-27
 - **add:** expose localhost
