@@ -4,6 +4,7 @@
 - **upg:** eslint-plugin-import (-> 1.10.0)
 - **upg:** several development dependencies
 - **upg:** several development dependencies
+- **fix:** refactor pagination related tasks
 
 ### [v0.3.0] - 2016-06-27
 - **add:** expose localhost

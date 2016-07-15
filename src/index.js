@@ -10,6 +10,7 @@ const Boom = require('boom');
 const errors = require('./errors');
 const validate = require('./validate');
 const header = require('./header');
+const pagination = require('./pagination');
 const pkg = require('../package.json');
 
 /**
@@ -20,7 +21,6 @@ const pkg = require('../package.json');
  * Store internal objects
  */
 const internals = {
-  aka: null,
   defaults: {
     per_page: 100,
     key: 'result',
@@ -40,81 +40,6 @@ const internals = {
 
 /**
  * @function
- * @private
- *
- * @description
- * Get parameter value based on the passed condition
- *
- * @param {*} param The parameter to be minimized
- * @param {*} condition The condition to be checked for
- * @returns {* | undefined} The minimized parameter value
- */
-function minimizeQueryParameter(param, condition) {
-  return param === condition ? undefined : param;
-}
-
-/**
- * @function
- * @private
- *
- * @description
- * Get pagination link generator with predefined values
- *
- * @param {string} id The endpoint ID
- * @param {number} per_page The number of entries per page
- * @param {Object} options The related options
- * @param {Object} query The related query parameters
- * @returns {Function} The predefined pagination link generator
- */
-function getPaginationLink(id, per_page, options, query) {
-  per_page = minimizeQueryParameter(per_page, options.per_page);
-
-  return page => {
-    page = minimizeQueryParameter(page, 1);
-
-    return internals.aka(id, {
-      query: Object.assign({}, query, { page, per_page }),
-    });
-  };
-}
-
-/**
- * @function
- * @private
- *
- * @description
- * Get entity/href mapping of necessary pagination links
- *
- * @param {string} id The endpoint ID
- * @param {number} page The requested page
- * @param {number} per_page The number of entries per page
- * @param {number} total The total number of entries
- * @param {Object} options The related options
- * @param {Object} query The related query parameters
- * @returns {Object.<?string} The mapping of pagination links
- */
-function getPaginationLinks(id, page, per_page, total, options, query) {
-  const getLink = getPaginationLink(id, per_page, options, query);
-  const lastPage = Math.ceil(total / per_page);
-  const links = {};
-
-  links.first = getLink(undefined);
-
-  if (page > 1 && page <= lastPage) {
-    links.prev = getLink(page - 1);
-  }
-
-  if (page < lastPage) {
-    links.next = getLink(page + 1);
-  }
-
-  links.last = getLink(lastPage);
-
-  return links;
-}
-
-/**
- * @function
  * @public
  *
  * @description
@@ -129,7 +54,6 @@ function bissle(server, pluginOptions, next) {
   server.dependency('akaya');
 
   server.decorate('reply', 'bissle', function decorator(res, options) {
-    internals.aka = this.request::this.request.aka;
     options = Object.assign({}, internals.defaults, options);
 
     if (!validate.options(options)) {
@@ -150,7 +74,10 @@ function bissle(server, pluginOptions, next) {
       return this.response(Boom.badRequest(errors.missingId));
     }
 
-    const links = getPaginationLinks(id, page, per_page, total, options, this.request.query);
+    const links = pagination.getLinks(
+      id, page, per_page, total, options, this.request.query, this.request::this.request.aka
+    );
+
     const linkHeader = header.getLink(links);
 
     this.response(Object.assign(res, {
