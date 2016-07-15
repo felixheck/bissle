@@ -1,6 +1,8 @@
 # master
 
 ### unreleased
+
+### [v0.3.1] - 2016-07-15
 - **upg:** eslint-plugin-import (-> 1.10.0)
 - **upg:** several development dependencies
 - **upg:** several development dependencies
@@ -9,6 +11,7 @@
 - **add:** utils for query parsing
 - **add:** pagination related test specification
 - **fix:** pagination links conditions
+- **doc:** update CHANGELOG.md
 
 ### [v0.3.0] - 2016-06-27
 - **add:** expose localhost
