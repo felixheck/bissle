@@ -8,6 +8,7 @@
 - **add:** qs for mocking akaya
 - **add:** utils for query parsing
 - **add:** pagination related test specification
+- **fix:** pagination links conditions
 
 ### [v0.3.0] - 2016-06-27
 - **add:** expose localhost

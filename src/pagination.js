@@ -66,7 +66,7 @@ function getPaginationLinks(id, page, per_page, total, options, query, aka) {
     links.prev = getLink(page - 1);
   }
 
-  if (page < lastPage) {
+  if (page < lastPage && page >= 1) {
     links.next = getLink(page + 1);
   }
 
