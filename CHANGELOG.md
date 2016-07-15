@@ -1,6 +1,7 @@
 # master
 
 ### unreleased
+- **fix:** version in meta data
 
 ### [v0.3.1] - 2016-07-15
 - **upg:** eslint-plugin-import (-> 1.10.0)
