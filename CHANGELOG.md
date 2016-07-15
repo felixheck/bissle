@@ -7,6 +7,7 @@
 - **fix:** refactor pagination related tasks
 - **add:** qs for mocking akaya
 - **add:** utils for query parsing
+- **add:** pagination related test specification
 
 ### [v0.3.0] - 2016-06-27
 - **add:** expose localhost
