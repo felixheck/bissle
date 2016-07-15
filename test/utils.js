@@ -1,5 +1,7 @@
 const Hapi = require('hapi');
 const akaya = require('akaya');
+const qs = require('qs');
+const url = require('url');
 const plugin = require('../src');
 const mockResponse = require('./index.mock');
 
@@ -51,6 +53,9 @@ const setup = (options) => {
   return fixtures;
 };
 
+const getQueries = path => qs.parse(url.parse(path).query).query;
+
 module.exports = {
   setup,
+  getQueries,
 };

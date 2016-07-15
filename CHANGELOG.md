@@ -6,6 +6,7 @@
 - **upg:** several development dependencies
 - **fix:** refactor pagination related tasks
 - **add:** qs for mocking akaya
+- **add:** utils for query parsing
 
 ### [v0.3.0] - 2016-06-27
 - **add:** expose localhost
