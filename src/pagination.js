@@ -81,7 +81,7 @@ function getPaginationLinks(id, page, per_page, total, options, query, aka) {
 /**
  * @function
  * @public
- * 
+ *
  * @description
  * Convert pagination links into relative ones based on options
  * @param {Object} links The links to be optimized
