@@ -6,15 +6,30 @@ const plugin = require('../src');
 const mockResponse = require('./index.mock');
 
 /**
+ * @type {Object}
+ * @private
+ * 
+ * @description
+ * Mock the plugin options
+ */
+const mockPluginOptions = {
+  absolute: false,
+};
+
+/**
  * @function
  * @public
  * 
  * @description
  * Setup and expose an Hapi server connection
- * 
+ *
+ * @param {Object} options The route specific options
+ * @param {Object} pluginOptions The plugin specific options
  * @returns {Object} The needed fixtures
  */
-const setup = (options) => {
+const setup = (options, pluginOptions) => {
+  pluginOptions = pluginOptions || mockPluginOptions;
+  
   const key = options && options.key || 'result';
   const fixtures = {
     server: new Hapi.Server(),
@@ -48,7 +63,12 @@ const setup = (options) => {
     },
   ]);
   
-  fixtures.server.register([akaya, plugin], err => {});
+  fixtures.server.register([{
+    register: akaya,
+  }, {
+    register: plugin,
+    options: pluginOptions,
+  }], err => {});
 
   return fixtures;
 };

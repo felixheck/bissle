@@ -35,6 +35,9 @@ const internals = {
       .integer()
       .min(1)
       .default(1),
+    pluginOptions: Joi.object({
+      absolute: Joi.boolean().default(false),
+    }),
   },
 };
 
@@ -50,6 +53,8 @@ const internals = {
  * @param {Function} next The callback to continue in the chain of plugins
  */
 function bissle(server, pluginOptions, next) {
+  pluginOptions = Joi.attempt(pluginOptions, internals.scheme.pluginOptions);
+
   server.expose('scheme', internals.scheme);
   server.dependency('akaya');
 
@@ -79,6 +84,10 @@ function bissle(server, pluginOptions, next) {
     );
 
     const linkHeader = header.getLink(links);
+
+    if (!pluginOptions.absolute) {
+      pagination.optimizeLinks(links, pluginOptions);
+    }
 
     this.response(Object.assign(res, {
       [options.key]: result,

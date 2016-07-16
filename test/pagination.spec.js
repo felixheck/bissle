@@ -96,3 +96,23 @@ test('bissle/pagination.getLinks >> has no prev/next HAL links | page is too hig
   t.equal(_.has(result, 'last'), true);
   t.end();
 });
+
+test('bissle/pagination.optimizeLinks >> converts links into relative ones', t => {
+  const links = { next: 'http://localhost:1337/?page=2' };
+  const pluginOptions = { absolute: false };
+
+  pagination.optimizeLinks(links, pluginOptions);
+
+  t.equal(_.some(links, link => _.startsWith(link, 'http://localhost:1337/')), false);
+  t.end();
+});
+
+test('bissle/pagination.optimizeLinks >> does not convert links into relative ones', t => {
+  const links = { next: 'http://localhost:1337/?page=2' };
+  const pluginOptions = { absolute: true };
+
+  pagination.optimizeLinks(links, pluginOptions);
+
+  t.equal(_.every(links, link => _.startsWith(link, 'http://localhost:1337/')), true);
+  t.end();
+});

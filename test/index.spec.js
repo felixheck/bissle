@@ -3,6 +3,20 @@ const _ = require('lodash');
 const errors = require('../src/errors');
 const { setup } = require('./utils');
 
+test('bissle.pluginOptions >> returns relative links', t => {
+  const { host, server } = setup({}, { absolute: false });
+
+  server.inject('/', response => {
+    t.equal(_.some(response.result._links, link => _.startsWith(link, host)), false);
+    t.end();
+  });
+});
+
+test('bissle.pluginOptions >> throws error if plugin specific options invalid', t => {
+  t.throws(() => setup({}, { foo: true }), /Error/);
+  t.end();
+});
+
 test('bissle >> request without query parameters', t => {
   const { server } = setup();
 
@@ -101,7 +115,7 @@ test('bissle >> append all passed query parameters', t => {
   const { host, server } = setup();
 
   server.inject('/?page=4&per_page=3&fields=foo', response => {
-    t.equal(response.result.links.first, `${host}?per_page=3&fields=foo`);
+    t.equal(response.result.links.first, `/?per_page=3&fields=foo`);
     t.end();
   });
 });
@@ -109,7 +123,7 @@ test('bissle >> append all passed query parameters', t => {
 test('bissle >> exposed query schema', t => {
   const { server } = setup();
 
-  t.deepEqual(_.keys(server.plugins.bissle.scheme).sort(), ['page', 'per_page']);
+  t.deepEqual(_.keys(server.plugins.bissle.scheme).sort(), ['page', 'per_page', 'pluginOptions']);
   t.equal(server.plugins.bissle.scheme.page.isJoi, true);
   t.end();
 });

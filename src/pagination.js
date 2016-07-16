@@ -1,3 +1,6 @@
+const _ = require('lodash');
+const url = require('url');
+
 /**
  * @function
  * @private
@@ -75,6 +78,15 @@ function getPaginationLinks(id, page, per_page, total, options, query, aka) {
   return links;
 }
 
+function optimizePaginationLinks(links, pluginOptions) {
+  if (!pluginOptions.absolute) {
+    _.forOwn(links, (href, entity) => {
+      links[entity] = url.parse(href).path;
+    });
+  }
+}
+
 module.exports = {
   getLinks: getPaginationLinks,
+  optimizeLinks: optimizePaginationLinks,
 };

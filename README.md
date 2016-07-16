@@ -69,16 +69,19 @@ server.register([akaya, bissle], err => {
 After registering **bissle**, the [HapiJS reply interface](hapijs.com/api#reply-interface) will be decorated with the new method `reply.bissle()`.
 
 #### Joi Validation
-If you use **Joi** for request validation, simply add `per_page` and `page` to the query scheme. The plugin exposes the related scheme via `server.plugins.bissle.scheme`. Alternatively it is possible to enable the `allowUnknown` option.
+If you use **Joi** for request validation, simply add `per_page` and `page` to the query scheme. The plugin exposes the all *bissle* related scheme via `server.plugins.bissle.scheme`. Alternatively it is possible to enable the `allowUnknown` option.
 
 ## API
+While the plugin registration it is possible to pass a plugin specific options object:
+- `options {Object}` - The plugin specific options object
+  - `absolute {boolean}` - If the pagination links (not the `Link` header) should be absolute or not.<br>Default: `false`.
 `reply.bissle(response, [options])`
 
 Returns an URI to a route
 - `response {Object}` - The result to be decorated and replied
 - `options {Object}` - The custom default values
   - `key {string}` - The access key of `response` to get the result to be paginated.<br>Default: `'result'`.
-  - `per_page {number}` - The default entries per page if none is defined in the query string.<br>Default: `100`<br>Range: `1-500`.
+  - `per_page {number}` - The default entries per page if none is defined in the query string.<br>Default: `100`.<br>Range: `1-500`.
 
 ##Example
 The following example demonstrates the usage of **bissle** in combination with **mongoose**, **halacious** and various utilities.
