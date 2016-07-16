@@ -78,6 +78,15 @@ function getPaginationLinks(id, page, per_page, total, options, query, aka) {
   return links;
 }
 
+/**
+ * @function
+ * @public
+ * 
+ * @description
+ * Convert pagination links into relative ones based on options
+ * @param {Object} links The links to be optimized
+ * @param {Object} pluginOptions The plugin related options
+ */
 function optimizePaginationLinks(links, pluginOptions) {
   if (!pluginOptions.absolute) {
     _.forOwn(links, (href, entity) => {
