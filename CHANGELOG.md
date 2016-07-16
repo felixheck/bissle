@@ -1,12 +1,15 @@
 # master
 
 ### unreleased
+
+### [v0.4.0] - 2016-07-16
 - **fix:** version in meta data
 - **add:** plugin related options
 - **fix:** refactor based on new functionality
 - **add:** test specifications based on new functionality
 - **doc:** adjust docs based on new functionality
 - **doc:** fix flaws
+- **doc:** update versions
 
 ### [v0.3.1] - 2016-07-15
 - **upg:** eslint-plugin-import (-> 1.10.0)
