@@ -29,8 +29,8 @@ function minimizeQueryParameter(param, condition) {
 function halifyLinks(links) {
   _.forOwn(links, (href, entity) => {
     links[entity] = {
-      href: href
-    }
+      href,
+    };
   });
 }
 
