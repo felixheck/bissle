@@ -1,4 +1,4 @@
-const querystring = require('querystring');
+const qs = require('qs');
 const _ = require('lodash');
 
 /**
@@ -76,7 +76,7 @@ function getRequestUrl(request, pluginOptions) {
 function getSelfLink(page, per_page, request, options, pluginOptions) {
   const requestPath = getRequestUrl(request, pluginOptions);
 
-  const query = querystring.stringify(Object.assign({}, request.query, {
+  const query = qs.stringify(Object.assign({}, request.query, {
     per_page: minimizeQueryParameter(per_page, options.per_page),
     page: minimizeQueryParameter(page, 1),
   }));

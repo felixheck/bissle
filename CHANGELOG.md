@@ -15,6 +15,7 @@
 - **doc:** update versions
 - **fix:** linting errors
 - **fix:** refactor test mocks
+- **fix:** replace querystring with qs
 
 ### [v0.4.0] - 2016-07-16
 - **fix:** version in meta data
