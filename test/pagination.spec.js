@@ -47,23 +47,23 @@ test('bissle/pagination.getLinks >> has all HAL links | middle page', t => {
   const result = pagination.getLinks('foo', 2, 3, 9, requestObjMock, akaMock, options, {});
 
   t.equal(_.has(result, 'first'), true);
-  t.deepEqual(getQueries(result.first), {
+  t.deepEqual(getQueries(result.first.href), {
     per_page: '3',
   });
 
   t.equal(_.has(result, 'prev'), true);
-  t.deepEqual(getQueries(result.prev), {
+  t.deepEqual(getQueries(result.prev.href), {
     per_page: '3',
   });
 
   t.equal(_.has(result, 'next'), true);
-  t.deepEqual(getQueries(result.next), {
+  t.deepEqual(getQueries(result.next.href), {
     per_page: '3',
     page: '3',
   });
 
   t.equal(_.has(result, 'last'), true);
-  t.deepEqual(getQueries(result.last), {
+  t.deepEqual(getQueries(result.last.href), {
     per_page: '3',
     page: '3',
   });
@@ -76,18 +76,18 @@ test('bissle/pagination.getLinks >> has all HAL links | customized middle page '
   const result = pagination.getLinks('foo', 2, 3, 9, requestObjMock, akaMock, options, {});
 
   t.equal(_.has(result, 'first'), true);
-  t.equal(getQueries(result.first), undefined, 'first');
+  t.equal(getQueries(result.first.href), undefined, 'first');
 
   t.equal(_.has(result, 'prev'), true);
-  t.equal(getQueries(result.prev), undefined, 'prev');
+  t.equal(getQueries(result.prev.href), undefined, 'prev');
 
   t.equal(_.has(result, 'next'), true);
-  t.deepEqual(getQueries(result.next), {
+  t.deepEqual(getQueries(result.next.href), {
     page: '3',
   });
 
   t.equal(_.has(result, 'last'), true);
-  t.deepEqual(getQueries(result.last), {
+  t.deepEqual(getQueries(result.last.href), {
     page: '3',
   });
 

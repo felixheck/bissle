@@ -1,4 +1,5 @@
 const querystring = require('querystring');
+const _ = require('lodash');
 
 /**
  * @function
@@ -13,6 +14,24 @@ const querystring = require('querystring');
  */
 function minimizeQueryParameter(param, condition) {
   return param === condition ? undefined : param;
+}
+
+/**
+ * @function
+ * @private
+ *
+ * @description
+ * Halify links by converting them to objects
+ *
+ * @param {Object} links The links to be halified
+ * @returns {Object} The halified links object
+ */
+function halifyLinks(links) {
+  _.forOwn(links, (href, entity) => {
+    links[entity] = {
+      href: href
+    }
+  });
 }
 
 /**
@@ -130,6 +149,8 @@ function getPaginationLinks(id, page, per_page, total, requestObj, aka, options,
   }
 
   links.last = getLink(lastPage);
+
+  halifyLinks(links);
 
   return links;
 }

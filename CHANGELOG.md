@@ -8,6 +8,7 @@
 - **fix:** rename links to _links
 - **fix:** adjust tests
 - **doc:** adjust documentation
+- **fix:** make links halicious
 
 ### [v0.4.0] - 2016-07-16
 - **fix:** version in meta data

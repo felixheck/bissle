@@ -173,6 +173,23 @@ Requesting the route `/items?page=2&per_page=2`, the plugin replies:
 
 ```js
 {
+  _links: {
+    self: {
+      href: "/items?page=2&per_page=2"
+    },
+    first: {
+      href: "/items?per_page=2"
+    },
+    prev: {
+      href: "/items?per_page=2"
+    },
+    next: {
+      href: "/items?page=3&per_page=2"
+    },
+    last: {
+      href: "/items?page=3&per_page=2"
+    },
+  },
   page: 2,
   per_page: 2,
   total: 5,
@@ -185,14 +202,7 @@ Requesting the route `/items?page=2&per_page=2`, the plugin replies:
       _id: "jkl",
       title: "jkl"
     }
-  ],
-  _links: {
-    self: "/items?page=2&per_page=2",
-    first: "/items?per_page=2",
-    prev: "/items?per_page=2",
-    next: "/items?page=3&per_page=2"
-    last: "/items?page=3&per_page=2"
-  }
+  ]
 }
 
 ```

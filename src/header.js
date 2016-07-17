@@ -13,9 +13,9 @@ const _ = require('lodash');
 function getLinkHeader(links) {
   const linkHeader = [];
 
-  _.forOwn(links, (href, entity) => {
+  _.forOwn(links, (link, entity) => {
     if (entity !== 'self') {
-      linkHeader.push(`<${href}>; rel="${entity}"`);
+      linkHeader.push(`<${link.href}>; rel="${entity}"`);
     }
   });
 

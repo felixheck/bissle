@@ -11,8 +11,8 @@ test('bissle/header >> parses no link header', t => {
 
 test('bissle/header >> parses link header', t => {
   const links = {
-    'prev': 'foo',
-    'last': 'bar',
+    'prev': { href: 'foo' },
+    'last': { href: 'bar' },
   };
 
   const splitLinks= _.map(header.getLink(links).split(','), _.trim);
