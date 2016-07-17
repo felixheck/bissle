@@ -1,24 +1,11 @@
 const test = require('tape').test;
-const qs = require('qs');
 const _ = require('lodash');
 const { getQueries } = require('./utils');
 const pagination = require('../src/pagination');
+const paginationMock = require('./pagination.mock');
 
-const akaMock = (id, query) => `/?${qs.stringify(query)}`.replace(/\?$/, '');
-const requestObjMock = {
-  headers: {},
-  connection: {
-    info: {
-      protocol: 'http',
-    }
-  },
-  info: {
-    host: 'localhost:1337',
-  },
-  url: {
-    pathname: '/'
-  }
-};
+const requestObjMock = paginationMock.requestObj;
+const akaMock = paginationMock.aka;
 
 test('bissle/pagination.getLinks >> has no prev HAL link | first page', t => {
   const options = { per_page: 1 };
