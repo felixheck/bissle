@@ -1,6 +1,8 @@
 # master
 
 ### unreleased
+
+### [v0.5.0] - 2016-07-17
 - **doc:** add documentation
 - **doc:** improve plugin options related paragraphs
 - **fix:** linting error
@@ -10,6 +12,7 @@
 - **doc:** adjust documentation
 - **fix:** make links halicious
 - **fix:** adjust tests
+- **doc:** update versions
 
 ### [v0.4.0] - 2016-07-16
 - **fix:** version in meta data
