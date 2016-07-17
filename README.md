@@ -104,6 +104,7 @@ server.route({
   method: 'GET',
   path: '/',
   config: {
+    id: 'root',
     handler: function (request, reply) {
       YourModel.find({}, (err, result) => {
         if (err) return reply(Boom.badRequest(err));
