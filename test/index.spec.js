@@ -25,7 +25,7 @@ test('bissle >> request without query parameters', t => {
     t.equal(response.result.total, 9);
     t.equal(response.result.per_page, 100);
     t.equal(response.result.page, 1);
-    t.deepEqual(_.keys(response.result.links).sort(), ['first', 'last']);
+    t.deepEqual(_.keys(response.result._links).sort(), ['self', 'first', 'last'].sort());
     t.end();
   });
 });
@@ -39,7 +39,7 @@ test('bissle >> request with "per_page" query parameter | first page', t => {
     t.equal(response.result.per_page, 3);
     t.equal(response.result.page, 1);
     t.deepEqual(_.map(response.result.result, _.partial(_.get, _, '_id')), ['1', '2', '3']);
-    t.deepEqual(_.keys(response.result.links).sort(), ['first', 'last', 'next']);
+    t.deepEqual(_.keys(response.result._links).sort(), ['self', 'first', 'last', 'next'].sort());
     t.end();
   });
 });
@@ -83,7 +83,7 @@ test('bissle >> request with both query parameters | last page', t => {
     t.equal(response.result.per_page, 3);
     t.equal(response.result.page, 3);
     t.deepEqual(_.map(response.result.result, _.partial(_.get, _, '_id')), ['7', '8', '9']);
-    t.deepEqual(_.keys(response.result.links).sort(), ['first', 'last', 'prev']);
+    t.deepEqual(_.keys(response.result._links).sort(), ['self', 'first', 'last', 'prev'].sort());
     t.end();
   });
 });
@@ -96,7 +96,7 @@ test('bissle >> request with both query parameters | not available', t => {
     t.equal(response.result.total, 9);
     t.equal(response.result.per_page, 3);
     t.equal(response.result.page, 4);
-    t.deepEqual(_.keys(response.result.links).sort(), ['first', 'last']);
+    t.deepEqual(_.keys(response.result._links).sort(), ['self', 'first', 'last'].sort());
     t.end();
   });
 });
@@ -115,7 +115,7 @@ test('bissle >> append all passed query parameters', t => {
   const { host, server } = setup();
 
   server.inject('/?page=4&per_page=3&fields=foo', response => {
-    t.equal(response.result.links.first, `/?per_page=3&fields=foo`);
+    t.equal(response.result._links.first, `/?per_page=3&fields=foo`);
     t.end();
   });
 });

@@ -11,7 +11,7 @@ test('bissle/options >> adjust the default entries per page', t => {
     t.equal(response.result.total, 9);
     t.equal(response.result.per_page, 3);
     t.equal(response.result.page, 1);
-    t.deepEqual(_.keys(response.result.links).sort(), ['first', 'last', 'next']);
+    t.deepEqual(_.keys(response.result._links).sort(), ['self', 'first', 'last', 'next'].sort());
     t.end();
   });
 });
@@ -44,7 +44,7 @@ test('bissle/options >> adjust the default access key', t => {
     t.equal(response.result.total, 9);
     t.equal(response.result.per_page, 100);
     t.equal(response.result.page, 1);
-    t.deepEqual(_.keys(response.result.links).sort(), ['first', 'last']);
+    t.deepEqual(_.keys(response.result._links).sort(), ['self', 'first', 'last'].sort());
     t.end();
   });
 });

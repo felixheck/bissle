@@ -80,21 +80,18 @@ function bissle(server, pluginOptions, next) {
     }
 
     const links = pagination.getLinks(
-      id, page, per_page, total, options, this.request.query, this.request::this.request.aka
+      id, page, per_page, total, this.request,
+      this.request::this.request.aka, options, pluginOptions
     );
 
     const linkHeader = header.getLink(links);
 
-    if (!pluginOptions.absolute) {
-      pagination.optimizeLinks(links, pluginOptions);
-    }
-
     this.response(Object.assign(res, {
       [options.key]: result,
+      _links: links,
       per_page,
       page,
       total,
-      links,
     })).header('link', linkHeader);
   });
 

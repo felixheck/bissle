@@ -14,7 +14,9 @@ function getLinkHeader(links) {
   const linkHeader = [];
 
   _.forOwn(links, (href, entity) => {
-    linkHeader.push(`<${href}>; rel="${entity}"`);
+    if (entity !== 'self') {
+      linkHeader.push(`<${href}>; rel="${entity}"`);
+    }
   });
 
   return linkHeader.join(', ') || undefined;

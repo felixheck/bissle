@@ -94,7 +94,6 @@ const bissle = require('bissle');
 const halacious = require('halacious');
 const akaya = require('akaya');
 const Boom = require('boom');
-const url = require('url');
 const _ = require('lodash');
 const YourModel = require('./models/yourModel');
 
@@ -120,13 +119,9 @@ server.route({
             rep.embed('task', `./${task._id}`, task);
           });
 
-          _.forOwn(rep.entity.links, (href, entity) => {
-            rep.link(entity, url.parse(href).path);
-          });
-
           return next();
         },
-        ignore: ['result', 'links']
+        ignore: ['result']
       }
     }
 });
@@ -191,7 +186,8 @@ Requesting the route `/items?page=2&per_page=2`, the plugin replies:
       title: "jkl"
     }
   ],
-  links: {
+  _links: {
+    self: "/items?page=2&per_page=2",
     first: "/items?per_page=2",
     prev: "/items?per_page=2",
     next: "/items?page=3&per_page=2"

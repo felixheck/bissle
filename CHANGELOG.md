@@ -4,6 +4,10 @@
 - **doc:** add documentation
 - **doc:** improve plugin options related paragraphs
 - **fix:** linting error
+- **add:** self link to links object
+- **fix:** rename links to _links
+- **fix:** adjust tests
+- **doc:** adjust documentation
 
 ### [v0.4.0] - 2016-07-16
 - **fix:** version in meta data

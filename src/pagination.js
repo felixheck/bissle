@@ -1,5 +1,4 @@
-const _ = require('lodash');
-const url = require('url');
+const querystring = require('querystring');
 
 /**
  * @function
@@ -21,6 +20,56 @@ function minimizeQueryParameter(param, condition) {
  * @private
  *
  * @description
+ * Get absolute/relative request url
+ *
+ * @param {Object} request The related request object
+ * @param {Object} pluginOptions The plugin related options
+ * @returns {string} The request url
+ */
+function getRequestUrl(request, pluginOptions) {
+  const proxyProtocol = request.headers && request.headers['x-forwarded-proto'];
+  const protocol = proxyProtocol || request.connection.info.protocol;
+  let requestUrl;
+
+  if (pluginOptions.absolute) {
+    requestUrl = `${protocol}://${request.info.host}${request.url.pathname}`;
+  } else {
+    requestUrl = request.url.pathname;
+  }
+
+  return requestUrl;
+}
+
+/**
+ * @function
+ * @private
+ *
+ * @description
+ * Get link of the requested resource itself
+ *
+ * @param {number} page The requested page
+ * @param {number} per_page The requested items per page
+ * @param {Object} request The related request object
+ * @param {Object} options The request related options
+ * @param {Object} pluginOptions The plugin related options
+ * @returns {string} The generated resource link
+ */
+function getSelfLink(page, per_page, request, options, pluginOptions) {
+  const requestPath = getRequestUrl(request, pluginOptions);
+
+  const query = querystring.stringify(Object.assign({}, request.query, {
+    per_page: minimizeQueryParameter(per_page, options.per_page),
+    page: minimizeQueryParameter(page, 1),
+  }));
+
+  return query ? `${requestPath}?${query}` : requestPath;
+}
+
+/**
+ * @function
+ * @private
+ *
+ * @description
  * Get pagination link generator with predefined values
  *
  * @param {string} id The endpoint ID
@@ -28,9 +77,10 @@ function minimizeQueryParameter(param, condition) {
  * @param {Object} options The related options
  * @param {Object} query The related query parameters
  * @param {Function} aka The request bound akaya function for link building
+ * @param {boolean} absolute If the link should be an absolute one
  * @returns {Function} The predefined pagination link generator
  */
-function getPaginationLink(id, per_page, options, query, aka) {
+function getPaginationLink(id, per_page, options, query, aka, absolute) {
   per_page = minimizeQueryParameter(per_page, options.per_page);
 
   return page => {
@@ -38,6 +88,8 @@ function getPaginationLink(id, per_page, options, query, aka) {
 
     return aka(id, {
       query: Object.assign({}, query, { page, per_page }),
+    }, {
+      rel: !absolute,
     });
   };
 }
@@ -53,16 +105,20 @@ function getPaginationLink(id, per_page, options, query, aka) {
  * @param {number} page The requested page
  * @param {number} per_page The number of entries per page
  * @param {number} total The total number of entries
- * @param {Object} options The related options
- * @param {Object} query The related query parameters
+ * @param {Object} requestObj The related query parameters
  * @param {Function} aka The request bound akaya function for link building
+ * @param {Object} options The related options
+ * @param {Object} pluginOptions The plugin related options
  * @returns {Object.<?string>} The mapping of pagination links
  */
-function getPaginationLinks(id, page, per_page, total, options, query, aka) {
-  const getLink = getPaginationLink(id, per_page, options, query, aka);
+function getPaginationLinks(id, page, per_page, total, requestObj, aka, options, pluginOptions) {
+  const getLink = getPaginationLink(
+    id, per_page, options, requestObj.query, aka, pluginOptions.absolute
+  );
   const lastPage = Math.ceil(total / per_page);
   const links = {};
 
+  links.self = getSelfLink(page, per_page, requestObj, options, pluginOptions);
   links.first = getLink(undefined);
 
   if (page > 1 && page <= lastPage) {
@@ -78,24 +134,6 @@ function getPaginationLinks(id, page, per_page, total, options, query, aka) {
   return links;
 }
 
-/**
- * @function
- * @public
- *
- * @description
- * Convert pagination links into relative ones based on options
- * @param {Object} links The links to be optimized
- * @param {Object} pluginOptions The plugin related options
- */
-function optimizePaginationLinks(links, pluginOptions) {
-  if (!pluginOptions.absolute) {
-    _.forOwn(links, (href, entity) => {
-      links[entity] = url.parse(href).path;
-    });
-  }
-}
-
 module.exports = {
   getLinks: getPaginationLinks,
-  optimizeLinks: optimizePaginationLinks,
 };
