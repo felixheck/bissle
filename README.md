@@ -74,14 +74,14 @@ If you use **Joi** for request validation, simply add `per_page` and `page` to t
 ## API
 #### Plugin Options
 While the plugin registration it is possible to pass a [plugin specific options object](http://hapijs.com/api#serverregisterplugins-options-callback):
-- `options {Object}` - The plugin specific options object
+- `options {Object}` - The plugin specific options object.
   - `absolute {boolean}` - If the pagination links (not the `Link` header) should be absolute or not.<br>Default: `false`.
 
 #### `reply.bissle(response, [options])`
 
-Returns an URI to a route
-- `response {Object}` - The result to be decorated and replied
-- `options {Object}` - The custom default values
+An additional reply interface for paginated responses.
+- `response {Object}` - The result to be decorated and replied.
+- `options {Object}` - The custom default values.
   - `key {string}` - The access key of `response` to get the result to be paginated.<br>Default: `'result'`.
   - `per_page {number}` - The default entries per page if none is defined in the query string.<br>Default: `100`.<br>Range: `1-500`.
 
@@ -131,9 +131,7 @@ server.register([akaya, halacious, {
   register: bissle,
   options: { absolute: false }
 }], err => {
-  if (err) {
-     throw err;
-  }
+  if (err) throw err;
 
   server.start();
 });
