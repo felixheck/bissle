@@ -1,9 +1,12 @@
 # master
 
 ### unreleased
+
+### [v0.5.1] - 2016-07-18
 - **fix:** dependency listing
 - **doc:** fix example
 - **doc:** fix flaws
+- **doc:** update versions
 
 ### [v0.5.0] - 2016-07-17
 - **doc:** add documentation
