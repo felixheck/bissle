@@ -1,6 +1,7 @@
 # master
 
 ### unreleased
+- **upg:** several dependencies and dev-dependencies
 
 ### [v0.5.1] - 2016-07-18
 - **fix:** dependency listing
