@@ -1,6 +1,6 @@
 /*!
  * @author Felix Heck <hi@whoTheHeck.de>
- * @version 0.5.1
+ * @version 0.5.2
  * @copyright Felix Heck 2016
  * @license MIT
  */

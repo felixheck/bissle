@@ -1,9 +1,12 @@
 # master
 
 ### unreleased
+
+### [v0.5.2] - 2016-09-21
 - **upg:** several dependencies and dev-dependencies
 - **upg:** several dependencies and dev-dependencies
 - **add:** custom 'arrow-parens' eslint rule
+- **doc:** update versions
 
 ### [v0.5.1] - 2016-07-18
 - **fix:** dependency listing
