@@ -1,6 +1,7 @@
 # master
 
 ### unreleased
+- **upg:** peer dependencies
 
 ### [v0.5.2] - 2016-09-21
 - **upg:** several dependencies and dev-dependencies

@@ -63,7 +63,7 @@
     "qs": "^6.2.1"
   },
   "peerDependencies": {
-    "akaya": "0.x.x",
-    "hapi": "13.x.x"
+    "akaya": ">= 0.x.x",
+    "hapi": ">= 13.x.x"
   }
 }
