@@ -4,6 +4,7 @@
 - **upg:** several dependencies and dev-dependencies
 - **fix:** linting errors
 - **rmv:** unneeded linting rules
+- **fix:** linting errors
 
 ### [v0.5.1] - 2016-07-18
 - **fix:** dependency listing

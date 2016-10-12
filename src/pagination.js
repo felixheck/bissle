@@ -102,7 +102,7 @@ function getSelfLink(page, per_page, request, options, pluginOptions) {
 function getPaginationLink(id, per_page, options, query, aka, absolute) {
   per_page = minimizeQueryParameter(per_page, options.per_page);
 
-  return page => {
+  return (page) => {
     page = minimizeQueryParameter(page, 1);
 
     return aka(id, {
