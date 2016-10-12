@@ -2,6 +2,9 @@
 
 ### unreleased
 
+### [v0.6.1] - 2016-10-12
+- **fix:** hotfix
+
 ### [v0.6.0] - 2016-10-12
 - **upg:** several dependencies and dev-dependencies
 - **fix:** linting errors

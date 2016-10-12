@@ -10,11 +10,7 @@
     "reply",
     "interface"
   ],
-<<<<<<< HEAD
-  "version": "0.6.0",
-=======
-  "version": "0.5.3",
->>>>>>> origin/master
+  "version": "0.6.1",
   "license": "MIT",
   "author": {
     "name": "Felix Heck",
