@@ -10,6 +10,15 @@
 - **upg:** several dependencies and dev-dependencies
 - **add:** yarn support
 - **doc:** add yarn to README
+
+### [v0.5.3] - 2016-09-21
+- **upg:** peer dependencies
+- **doc:** update versions
+
+### [v0.5.2] - 2016-09-21
+- **upg:** several dependencies and dev-dependencies
+- **upg:** several dependencies and dev-dependencies
+- **add:** custom 'arrow-parens' eslint rule
 - **doc:** update versions
 
 ### [v0.5.1] - 2016-07-18

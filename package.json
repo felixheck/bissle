@@ -10,7 +10,11 @@
     "reply",
     "interface"
   ],
+<<<<<<< HEAD
   "version": "0.6.0",
+=======
+  "version": "0.5.3",
+>>>>>>> origin/master
   "license": "MIT",
   "author": {
     "name": "Felix Heck",
@@ -63,7 +67,7 @@
     "qs": "^6.2.1"
   },
   "peerDependencies": {
-    "akaya": "0.x.x",
-    "hapi": "13.x.x"
+    "akaya": ">= 0.x.x",
+    "hapi": ">= 13.x.x"
   }
 }
