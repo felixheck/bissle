@@ -7,7 +7,7 @@ const _ = require('lodash');
  * @description
  * Validate the per_page parameter in the query or the options
  *
- * @param {number} per_page The per_pafe parameter to be validated
+ * @param {number} per_page The per_page parameter to be validated
  * @returns {boolean} The parameter is valid
  */
 function validatePerPage(per_page) {

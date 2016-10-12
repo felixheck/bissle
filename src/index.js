@@ -86,7 +86,7 @@ function bissle(server, pluginOptions, next) {
 
     const linkHeader = header.getLink(links);
 
-    this.response(Object.assign(res, {
+    return this.response(Object.assign(res, {
       [options.key]: result,
       _links: links,
       per_page,
