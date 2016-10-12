@@ -35,7 +35,7 @@ or clone the repository:
 $ git clone https://github.com/felixheck/bissle
 ```
 
-Alternatively use the [Yarn Package Manager]():
+Alternatively use the [Yarn Package Manager](https://yarnpkg.com):
 ```
 // production version with ES5 syntax
 $ yarn add bissle

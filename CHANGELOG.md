@@ -1,6 +1,7 @@
 # master
 
 ### unreleased
+- **doc:** add missing yarn link
 
 ### [v0.6.3] - 2016-10-12
 - **fix:** hotfix
