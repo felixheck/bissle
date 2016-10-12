@@ -35,6 +35,12 @@ or clone the repository:
 $ git clone https://github.com/felixheck/bissle
 ```
 
+Alternatively use the [Yarn Package Manager]():
+```
+// production version with ES5 syntax
+$ yarn add bissle
+```
+
 ## Usage
 #### Import
 First you have to import the module and the peer dependency [akaya](https://github.com/felixheck/akaya):

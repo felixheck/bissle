@@ -7,6 +7,7 @@
 - **fix:** linting errors
 - **upg:** several dependencies and dev-dependencies
 - **add:** yarn support
+- **doc:** add yarn to README
 
 ### [v0.5.1] - 2016-07-18
 - **fix:** dependency listing
