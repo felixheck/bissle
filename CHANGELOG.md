@@ -1,6 +1,8 @@
 # master
 
 ### unreleased
+
+### [v0.6.0] - 2016-10-12
 - **upg:** several dependencies and dev-dependencies
 - **fix:** linting errors
 - **rmv:** unneeded linting rules
@@ -8,6 +10,7 @@
 - **upg:** several dependencies and dev-dependencies
 - **add:** yarn support
 - **doc:** add yarn to README
+- **doc:** update versions
 
 ### [v0.5.1] - 2016-07-18
 - **fix:** dependency listing
