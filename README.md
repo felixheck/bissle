@@ -90,7 +90,9 @@ An additional reply interface for paginated responses.
 - `options {Object}` - The custom default values.
   - `key {string}` - The access key of `response` to get the result to be paginated.<br>Default: `'result'`.
   - `per_page {number}` - The default entries per page if none is defined in the query string.<br>Default: `100`.<br>Range: `1-500`.
-
+  - `total {number}` - Overwrite the internally generated `total` value and avoid data splicing. The passed response get returned without internally done pagination. Just meta information and the `Link` header get added.<br>Default: `null`.<br>Range: `>=0`.
+	
+If you set a number to `options.total`, the 
 ##Example
 The following example demonstrates the usage of **bissle** in combination with **mongoose**, **halacious** and various utilities.
 
