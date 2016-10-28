@@ -4,6 +4,7 @@
 - **doc:** add missing yarn link
 - **add:** feature to add custom total value
 - **doc:** add total option related docs
+- **upg:** several dependencies and dev-dependencies
 
 ### [v0.6.3] - 2016-10-12
 - **fix:** hotfix
