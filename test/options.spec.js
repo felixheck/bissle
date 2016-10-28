@@ -36,6 +36,40 @@ test('bissle/options >> adjust the default entries per page | 0', t => {
   });
 });
 
+test('bissle/options >> adjust the total option', t => {
+  const { server } = setup({ total: 5 });
+
+  server.inject('/?page=2&per_page=2', response => {
+    t.equal(response.result.result.length, 9);
+    t.equal(response.result.total, 5);
+    t.equal(response.result.per_page, 2);
+    t.equal(response.result.page, 2);
+    t.equal(response.result._links.last.href, '/?page=3&per_page=2');
+    t.end();
+  });
+});
+
+test('bissle/options >> adjust the total option | -1', t => {
+  const { server } = setup({ total: -1 });
+
+  server.inject('/', response => {
+    t.equal(response.result.statusCode, 400);
+    t.equal(response.result.message, errors.invalidOptions);
+    t.end();
+  });
+});
+
+test('bissle/options >> adjust the total option | \'foo\'', t => {
+  const { server } = setup({ total: 'foo' });
+
+  server.inject('/?page=2&per_page=2', response => {
+    t.equal(response.result.statusCode, 400);
+    t.equal(response.result.message, errors.invalidOptions);
+    t.end();
+  });
+});
+
+
 test('bissle/options >> adjust the default access key', t => {
   const { server } = setup({ key: 'foo' });
 

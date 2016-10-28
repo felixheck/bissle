@@ -21,6 +21,17 @@ test('bissle/validate.options >> is valid | number-like string as per_page', t =
   t.end();
 });
 
+test('bissle/validate.options >> is valid | number as total', t => {
+  const options = {
+    key: 'foo',
+    per_page: 42,
+    total: 5,
+  };
+
+  t.equal(validate.options(options), true);
+  t.end();
+});
+
 test('bissle/validate.options >> is not valid | boolean as key', t => {
   const options = {
     key: false,
@@ -55,6 +66,39 @@ test('bissle/validate.options >> is not valid | string as per_page', t => {
   const options = {
     key: 'foo',
     per_page: 'foo',
+  };
+
+  t.equal(validate.options(options), false);
+  t.end();
+});
+
+test('bissle/validate.options >> is not valid | string as total', t => {
+  const options = {
+    key: 'foo',
+    per_page: 42,
+    total: 'foo',
+  };
+
+  t.equal(validate.options(options), false);
+  t.end();
+});
+
+test('bissle/validate.options >> is not valid | negative number as total', t => {
+  const options = {
+    key: 'foo',
+    per_page: 42,
+    total: -1,
+  };
+
+  t.equal(validate.options(options), false);
+  t.end();
+});
+
+test('bissle/validate.options >> is not valid | number-like string as total', t => {
+  const options = {
+    key: 'foo',
+    per_page: 42,
+    total: '5',
   };
 
   t.equal(validate.options(options), false);

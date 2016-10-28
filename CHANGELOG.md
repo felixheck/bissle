@@ -2,6 +2,7 @@
 
 ### unreleased
 - **doc:** add missing yarn link
+- **add:** feature to add custom total value
 
 ### [v0.6.3] - 2016-10-12
 - **fix:** hotfix

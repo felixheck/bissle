@@ -22,6 +22,7 @@ const pkg = require('../package.json');
  */
 const internals = {
   defaults: {
+    total: null,
     per_page: 100,
     key: 'result',
   },
@@ -59,6 +60,9 @@ function bissle(server, pluginOptions, next) {
   server.dependency('akaya');
 
   server.decorate('reply', 'bissle', function decorator(res, options) {
+    let result;
+    let total;
+
     options = Object.assign({}, internals.defaults, options);
 
     if (!validate.options(options)) {
@@ -71,8 +75,15 @@ function bissle(server, pluginOptions, next) {
 
     const { page, per_page } = this.request.query;
     const offset = (page - 1) * per_page;
-    const total = res[options.key].length;
-    const result = res[options.key].splice(offset, per_page);
+
+    if (options.total !== null) {
+      total = options.total;
+      result = res[options.key];
+    } else {
+      total = res[options.key].length;
+      result = res[options.key].splice(offset, per_page);
+    }
+
     const id = this.request.route.settings.id;
 
     if (!id) {

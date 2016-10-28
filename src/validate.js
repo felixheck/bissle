@@ -5,13 +5,27 @@ const _ = require('lodash');
  * @private
  *
  * @description
+ * Validate the total parameter in the query or the options
+ *
+ * @param {number} total The per_page parameter to be validated
+ * @returns {boolean} The parameter is valid
+ */
+function validateTotal(total) {
+  return _.toInteger(total) >= 0 && !_.isString(total);
+}
+
+/**
+ * @function
+ * @private
+ *
+ * @description
  * Validate the per_page parameter in the query or the options
  *
  * @param {number} per_page The per_page parameter to be validated
  * @returns {boolean} The parameter is valid
  */
 function validatePerPage(per_page) {
-  return _.inRange(per_page, 1, 500 + 1);
+  return _.inRange(_.toInteger(per_page), 1, 500 + 1);
 }
 
 /**
@@ -25,9 +39,9 @@ function validatePerPage(per_page) {
  * @returns {boolean} The options are valid
  */
 function validateOptions(options) {
-  options.per_page = _.toInteger(options.per_page);
-
-  return _.isString(options.key) && validatePerPage(options.per_page);
+  return _.isString(options.key) &&
+    validatePerPage(options.per_page) &&
+    validateTotal(options.total);
 }
 
 /**
