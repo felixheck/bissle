@@ -53,13 +53,14 @@ function validateOptions(options) {
  *
  * @param {Object} query The query object to be validated
  * @param {Object} options The related options
+ * @param {Object} paramNames The names of the query params
  * @returns {Object} The query parameters are valid
  */
-function validateQuery(query, options) {
-  query.per_page = _.toInteger(query.per_page || options.per_page);
-  query.page = _.toInteger(query.page || 1);
+function validateQuery(query, options, paramNames) {
+  query[paramNames.per_page] = _.toInteger(query[paramNames.per_page] || options.per_page);
+  query[paramNames.page] = _.toInteger(query[paramNames.page] || 1);
 
-  return query.page >= 1 && validatePerPage(query.per_page);
+  return query[paramNames.page] >= 1 && validatePerPage(query[paramNames.per_page]);
 }
 
 
