@@ -8,18 +8,23 @@ const mockResponse = require('./index.mock');
 /**
  * @type {Object}
  * @private
- * 
+ *
  * @description
  * Mock the plugin options
  */
 const mockPluginOptions = {
   absolute: false,
+  paramNames: {
+    per_page: 'per_page',
+    page: 'page',
+    total: 'total',
+  },
 };
 
 /**
  * @function
  * @public
- * 
+ *
  * @description
  * Setup and expose an Hapi server connection
  *
@@ -29,7 +34,7 @@ const mockPluginOptions = {
  */
 const setup = (options, pluginOptions) => {
   pluginOptions = pluginOptions || mockPluginOptions;
-  
+
   const key = options && options.key || 'result';
   const fixtures = {
     server: new Hapi.Server(),
@@ -62,7 +67,7 @@ const setup = (options, pluginOptions) => {
       },
     },
   ]);
-  
+
   fixtures.server.register([{
     register: akaya,
   }, {

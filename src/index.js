@@ -27,17 +27,19 @@ const internals = {
     key: 'result',
   },
   scheme: {
-    per_page: Joi.number()
-      .integer()
-      .min(1)
-      .max(500)
-      .default(100),
-    page: Joi.number()
-      .integer()
-      .min(1)
-      .default(1),
     pluginOptions: Joi.object({
       absolute: Joi.boolean().default(false),
+      paramNames: Joi
+        .object({
+          per_page: Joi.string().default('per_page'),
+          page: Joi.string().default('page'),
+          total: Joi.string().default('total'),
+        })
+        .default({
+          per_page: 'per_page',
+          page: 'page',
+          total: 'total',
+        }),
     }),
   },
 };
@@ -56,6 +58,20 @@ const internals = {
 function bissle(server, pluginOptions, next) {
   pluginOptions = Joi.attempt(pluginOptions, internals.scheme.pluginOptions);
 
+  const paramNames = pluginOptions.paramNames;
+  internals.scheme = {
+    pluginOptions: internals.scheme.pluginOptions,
+    [paramNames.per_page]: Joi.number()
+      .integer()
+      .min(1)
+      .max(500)
+      .default(100),
+    [paramNames.page]: Joi.number()
+      .integer()
+      .min(1)
+      .default(1),
+  };
+
   server.expose('scheme', internals.scheme);
   server.dependency('akaya');
 
@@ -69,19 +85,20 @@ function bissle(server, pluginOptions, next) {
       return this.response(Boom.badRequest(errors.invalidOptions));
     }
 
-    if (!validate.query(this.request.query, options)) {
+    if (!validate.query(this.request.query, options, pluginOptions.paramNames)) {
       return this.response(Boom.badRequest(errors.invalidQuery));
     }
 
-    const { page, per_page } = this.request.query;
-    const offset = (page - 1) * per_page;
+    const page = this.request.query[paramNames.page];
+    const perPage = this.request.query[paramNames.per_page];
+    const offset = (page - 1) * perPage;
 
     if (options.total !== null) {
       total = options.total;
       result = res[options.key];
     } else {
       total = res[options.key].length;
-      result = res[options.key].splice(offset, per_page);
+      result = res[options.key].splice(offset, perPage);
     }
 
     const id = this.request.route.settings.id;
@@ -91,7 +108,7 @@ function bissle(server, pluginOptions, next) {
     }
 
     const links = pagination.getLinks(
-      id, page, per_page, total, this.request,
+      id, page, perPage, total, this.request,
       this.request::this.request.aka, options, pluginOptions
     );
 
@@ -100,9 +117,9 @@ function bissle(server, pluginOptions, next) {
     return this.response(Object.assign(res, {
       [options.key]: result,
       _links: links,
-      per_page,
-      page,
-      total,
+      [paramNames.per_page]: perPage,
+      [paramNames.page]: page,
+      [paramNames.total]: total,
     })).header('link', linkHeader);
   });
 

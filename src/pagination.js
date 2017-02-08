@@ -76,9 +76,10 @@ function getRequestUrl(request, pluginOptions) {
 function getSelfLink(page, per_page, request, options, pluginOptions) {
   const requestPath = getRequestUrl(request, pluginOptions);
 
+  const paramNames = pluginOptions.paramNames;
   const query = qs.stringify(Object.assign({}, request.query, {
-    per_page: minimizeQueryParameter(per_page, options.per_page),
-    page: minimizeQueryParameter(page, 1),
+    [paramNames.per_page]: minimizeQueryParameter(per_page, options.per_page),
+    [paramNames.page]: minimizeQueryParameter(page, 1),
   }));
 
   return query ? `${requestPath}?${query}` : requestPath;
@@ -97,16 +98,20 @@ function getSelfLink(page, per_page, request, options, pluginOptions) {
  * @param {Object} query The related query parameters
  * @param {Function} aka The request bound akaya function for link building
  * @param {boolean} absolute If the link should be an absolute one
+ * @param {Object} paramNames The names of the query params
  * @returns {Function} The predefined pagination link generator
  */
-function getPaginationLink(id, per_page, options, query, aka, absolute) {
+function getPaginationLink(id, per_page, options, query, aka, absolute, paramNames) {
   per_page = minimizeQueryParameter(per_page, options.per_page);
 
   return (page) => {
     page = minimizeQueryParameter(page, 1);
 
     return aka(id, {
-      query: Object.assign({}, query, { page, per_page }),
+      query: Object.assign({}, query, {
+        [paramNames.page]: page,
+        [paramNames.per_page]: per_page,
+      }),
     }, {
       rel: !absolute,
     });
@@ -132,7 +137,7 @@ function getPaginationLink(id, per_page, options, query, aka, absolute) {
  */
 function getPaginationLinks(id, page, per_page, total, requestObj, aka, options, pluginOptions) {
   const getLink = getPaginationLink(
-    id, per_page, options, requestObj.query, aka, pluginOptions.absolute
+    id, per_page, options, requestObj.query, aka, pluginOptions.absolute, pluginOptions.paramNames
   );
   const lastPage = Math.ceil(total / per_page);
   const links = {};

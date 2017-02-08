@@ -30,6 +30,47 @@ test('bissle >> request without query parameters', t => {
   });
 });
 
+test('bissle >> request without query parameters | custom param names', t => {
+  const { server } = setup(null, {
+    absolute: false,
+    paramNames: {
+      per_page: 'pageSize',
+      page: 'currentPage',
+      total: 'totalCount',
+    },
+  });
+
+  server.inject('/', response => {
+    t.equal(response.result.result.length, 9);
+    t.equal(response.result.totalCount, 9);
+    t.equal(response.result.pageSize, 100);
+    t.equal(response.result.currentPage, 1);
+    t.deepEqual(_.keys(response.result._links).sort(), ['self', 'first', 'last'].sort());
+    t.end();
+  });
+});
+
+test('bissle >> request with custom "per_page" query parameter | first page', t => {
+  const { server } = setup(null, {
+    absolute: false,
+    paramNames: {
+      per_page: 'pageSize',
+      page: 'currentPage',
+      total: 'totalCount',
+    },
+  });
+
+  server.inject('/?pageSize=3', response => {
+    t.equal(response.result.result.length, 3);
+    t.equal(response.result.totalCount, 9);
+    t.equal(response.result.pageSize, 3);
+    t.equal(response.result.currentPage, 1);
+    t.deepEqual(_.map(response.result.result, _.partial(_.get, _, '_id')), ['1', '2', '3']);
+    t.deepEqual(_.keys(response.result._links).sort(), ['self', 'first', 'last', 'next'].sort());
+    t.end();
+  });
+});
+
 test('bissle >> request with "per_page" query parameter | first page', t => {
   const { server } = setup();
 
@@ -121,10 +162,42 @@ test('bissle >> append all passed query parameters', t => {
   });
 });
 
+test('bissle >> append all passed query parameters | custom param names', t => {
+  const { server } = setup(null, {
+    absolute: false,
+    paramNames: {
+      per_page: 'pageSize',
+      page: 'currentPage',
+      total: 'totalCount',
+    },
+  });
+
+  server.inject('/?currentPage=4&pageSize=3&fields=foo', response => {
+    t.equal(response.result._links.self.href, '/?currentPage=4&pageSize=3&fields=foo');
+    t.equal(response.result._links.first.href, '/?pageSize=3&fields=foo');
+    t.end();
+  });
+});
+
 test('bissle >> exposed query schema', t => {
   const { server } = setup();
 
   t.deepEqual(_.keys(server.plugins.bissle.scheme).sort(), ['page', 'per_page', 'pluginOptions']);
   t.equal(server.plugins.bissle.scheme.page.isJoi, true);
+  t.end();
+});
+
+test('bissle >> exposed query schema | custom param names', t => {
+  const { server } = setup(null, {
+    absolute: false,
+    paramNames: {
+      per_page: 'pageSize',
+      page: 'currentPage',
+      total: 'totalCount',
+    },
+  });
+
+  t.deepEqual(_.keys(server.plugins.bissle.scheme).sort(), ['currentPage', 'pageSize', 'pluginOptions']);
+  t.equal(server.plugins.bissle.scheme.currentPage.isJoi, true);
   t.end();
 });
