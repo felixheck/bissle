@@ -2,6 +2,10 @@
 
 ### unreleased
 
+### [v1.1.0] - 2017-02-09
+- **fix:** flaws related to routes with parameters
+- **doc:** bump version
+
 ### [v1.0.1] - 2017-02-09
 - **fix:** flaws
 - **doc:** bump version
