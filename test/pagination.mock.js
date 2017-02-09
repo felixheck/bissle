@@ -14,7 +14,10 @@ const requestObjMock = {
   },
   url: {
     pathname: '/'
-  }
+  },
+  params: {
+    id: 1,
+  },
 };
 
 module.exports = {

@@ -79,8 +79,10 @@ const setup = (options, pluginOptions) => {
 };
 
 const getQueries = path => qs.parse(url.parse(path).query).query;
+const getParams = path => qs.parse(url.parse(path).query).params;
 
 module.exports = {
   setup,
   getQueries,
+  getParams,
 };
