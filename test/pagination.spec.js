@@ -1,6 +1,6 @@
 const test = require('tape').test;
 const _ = require('lodash');
-const { getQueries } = require('./utils');
+const { getQueries, getParams } = require('./utils');
 const pagination = require('../src/pagination');
 const paginationMock = require('./pagination.mock');
 
@@ -146,5 +146,28 @@ test('bissle/pagination.getLinks >> has no prev/next HAL links | page is too hig
   t.equal(_.has(result, 'prev'), false);
   t.equal(_.has(result, 'next'), false);
   t.equal(_.has(result, 'last'), true);
+  t.end();
+});
+
+test('bissle/pagination.getLinks >> passes request.params to aka', t => {
+  const options = { per_page: 1 };
+  const result = pagination.getLinks('foo', 2, 1, 5, requestObjMock, akaMock, options, pluginOptions);
+
+  t.equal(_.has(result, 'first'), true);
+  t.deepEqual(getParams(result.first.href), {
+      id: '1',
+  });
+  t.equal(_.has(result, 'prev'), true);
+  t.deepEqual(getParams(result.prev.href), {
+      id: '1',
+  });
+  t.equal(_.has(result, 'next'), true);
+  t.deepEqual(getParams(result.next.href), {
+      id: '1',
+  });
+  t.equal(_.has(result, 'last'), true);
+  t.deepEqual(getParams(result.last.href), {
+      id: '1',
+  });
   t.end();
 });

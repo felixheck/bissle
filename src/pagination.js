@@ -95,23 +95,24 @@ function getSelfLink(page, per_page, request, options, pluginOptions) {
  * @param {string} id The endpoint ID
  * @param {number} per_page The number of entries per page
  * @param {Object} options The related options
- * @param {Object} query The related query parameters
+ * @param {Object} requestObj The related query parameters
  * @param {Function} aka The request bound akaya function for link building
  * @param {boolean} absolute If the link should be an absolute one
  * @param {Object} paramNames The names of the query params
  * @returns {Function} The predefined pagination link generator
  */
-function getPaginationLink(id, per_page, options, query, aka, absolute, paramNames) {
+function getPaginationLink(id, per_page, options, requestObj, aka, absolute, paramNames) {
   per_page = minimizeQueryParameter(per_page, options.per_page);
 
   return (page) => {
     page = minimizeQueryParameter(page, 1);
 
     return aka(id, {
-      query: Object.assign({}, query, {
+      query: Object.assign({}, requestObj.query, {
         [paramNames.page]: page,
         [paramNames.per_page]: per_page,
       }),
+      params: requestObj.params,
     }, {
       rel: !absolute,
     });
@@ -137,7 +138,7 @@ function getPaginationLink(id, per_page, options, query, aka, absolute, paramNam
  */
 function getPaginationLinks(id, page, per_page, total, requestObj, aka, options, pluginOptions) {
   const getLink = getPaginationLink(
-    id, per_page, options, requestObj.query, aka, pluginOptions.absolute, pluginOptions.paramNames
+    id, per_page, options, requestObj, aka, pluginOptions.absolute, pluginOptions.paramNames
   );
   const lastPage = Math.ceil(total / per_page);
   const links = {};
