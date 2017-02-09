@@ -46,6 +46,31 @@ const internals = {
 
 /**
  * @function
+ * @private
+ *
+ * @description
+ * Update schemes based on pluginOption.paramNames
+ *
+ * @param {Object.<string>} paramNames The passed updated paramNames
+ */
+function setParamScheme(paramNames) {
+  console.log(internals.scheme);
+  internals.scheme = {
+    pluginOptions: internals.scheme.pluginOptions,
+    [paramNames.per_page]: Joi.number()
+      .integer()
+      .min(1)
+      .max(500)
+      .default(100),
+    [paramNames.page]: Joi.number()
+      .integer()
+      .min(1)
+      .default(1),
+  };
+}
+
+/**
+ * @function
  * @public
  *
  * @description
@@ -59,18 +84,7 @@ function bissle(server, pluginOptions, next) {
   pluginOptions = Joi.attempt(pluginOptions, internals.scheme.pluginOptions);
 
   const paramNames = pluginOptions.paramNames;
-  internals.scheme = {
-    pluginOptions: internals.scheme.pluginOptions,
-    [paramNames.per_page]: Joi.number()
-      .integer()
-      .min(1)
-      .max(500)
-      .default(100),
-    [paramNames.page]: Joi.number()
-      .integer()
-      .min(1)
-      .default(1),
-  };
+  setParamScheme(paramNames);
 
   server.expose('scheme', internals.scheme);
   server.dependency('akaya');
@@ -90,15 +104,15 @@ function bissle(server, pluginOptions, next) {
     }
 
     const page = this.request.query[paramNames.page];
-    const perPage = this.request.query[paramNames.per_page];
-    const offset = (page - 1) * perPage;
+    const per_page = this.request.query[paramNames.per_page];
+    const offset = (page - 1) * per_page;
 
     if (options.total !== null) {
       total = options.total;
       result = res[options.key];
     } else {
       total = res[options.key].length;
-      result = res[options.key].splice(offset, perPage);
+      result = res[options.key].splice(offset, per_page);
     }
 
     const id = this.request.route.settings.id;
@@ -108,7 +122,7 @@ function bissle(server, pluginOptions, next) {
     }
 
     const links = pagination.getLinks(
-      id, page, perPage, total, this.request,
+      id, page, per_page, total, this.request,
       this.request::this.request.aka, options, pluginOptions
     );
 
@@ -117,7 +131,7 @@ function bissle(server, pluginOptions, next) {
     return this.response(Object.assign(res, {
       [options.key]: result,
       _links: links,
-      [paramNames.per_page]: perPage,
+      [paramNames.per_page]: per_page,
       [paramNames.page]: page,
       [paramNames.total]: total,
     })).header('link', linkHeader);

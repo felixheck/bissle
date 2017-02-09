@@ -83,7 +83,7 @@ While the plugin registration it is possible to pass a [plugin specific options 
 - `options {Object}` - The plugin specific options object.
   - `absolute {boolean}` - If the pagination links (not the `Link` header) should be absolute or not.<br>Default: `false`.
   - `paramNames {Object}` - Config object for overriding default parameter names output in the response
-    - `per_page {string}` - Parameter name for describing the page size <br>Default: `per_page`
+    - `per_page {string}` - Parameter name for describing the page limit <br>Default: `per_page`
     - `page {string}` - Parameter name for describing the current page <br>Default: `page`
     - `total {string}` - Parameter name for describing the total item count <br>Default: `total`
 
@@ -96,7 +96,6 @@ An additional reply interface for paginated responses.
   - `per_page {number}` - The default entries per page if none is defined in the query string.<br>Default: `100`.<br>Range: `1-500`.
   - `total {number}` - Overwrite the internally generated `total` value and avoid data splicing. The passed response get returned without internally done pagination. Just meta information and the `Link` header get added.<br>Default: `null`.<br>Range: `>=0`.
 
-If you set a number to `options.total`, the
 ##Example
 The following example demonstrates the usage of **bissle** in combination with **mongoose**, **halacious** and various utilities.
 
