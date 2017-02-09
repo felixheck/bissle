@@ -54,7 +54,6 @@ const internals = {
  * @param {Object.<string>} paramNames The passed updated paramNames
  */
 function setParamScheme(paramNames) {
-  console.log(internals.scheme);
   internals.scheme = {
     pluginOptions: internals.scheme.pluginOptions,
     [paramNames.per_page]: Joi.number()

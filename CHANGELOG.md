@@ -2,6 +2,10 @@
 
 ### unreleased
 
+### [v1.0.1] - 2017-02-09
+- **fix:** flaws
+- **doc:** bump version
+
 ### [v1.0.0] - 2017-02-09
 - **add:** changes based on Bazze its PR
 - **fix:** flaws
