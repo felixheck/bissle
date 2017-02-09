@@ -1,6 +1,9 @@
 # master
 
 ### unreleased
+- **add**: changes based on Bazze its PR
+- **fix**: flaws
+- **doc**: update license year
 
 ### [v0.7.0] - 2016-10-28
 - **doc:** add missing yarn link

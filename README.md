@@ -300,7 +300,7 @@ Do not forget to add corresponding tests to keep up 100% test coverage.
 ## License
 The MIT License
 
-Copyright (c) 2016 Felix Heck
+Copyright (c) 2016-2017 Felix Heck
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
