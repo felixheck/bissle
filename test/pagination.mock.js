@@ -1,26 +1,26 @@
-const qs = require('qs');
+const qs = require('qs')
 
-const akaMock = (id, query) => `/?${qs.stringify(query)}`.replace(/\?$/, '');
+const akaMock = (id, query) => `/?${qs.stringify(query)}`.replace(/\?$/, '')
 
 const requestObjMock = {
   headers: {},
   connection: {
     info: {
-      protocol: 'http',
+      protocol: 'http'
     }
   },
   info: {
-    host: 'localhost:1337',
+    host: 'localhost:1337'
   },
   url: {
     pathname: '/'
   },
   params: {
-    id: 1,
-  },
-};
+    id: 1
+  }
+}
 
 module.exports = {
   aka: akaMock,
-  requestObj: requestObjMock,
-};
+  requestObj: requestObjMock
+}

@@ -18,26 +18,23 @@
 
 This [HapiJS](https://github.com/hapijs/hapi) plugin enables an additional reply interface to paginate a response in a RESTful and [HAL](https://tools.ietf.org/html/draft-kelly-json-hal-06) compliant manner. So the plugin accordingly splices the initial response; extends it with meta information about the count of entries per page, the total count and the current page; adds a link map for HALicious navigation and appends the corresponding `Link` header. It is not a middleware-like plugin, so you are allowed to control the usage explicitly by yourself. Because of this, it works perfectly in combination with HAL plugins like [halacious](https://github.com/bleupen/halacious), as it is shown in the [example](#example) below.
 
-The plugin is implemented in ECMAScript 6, therefore the development dependencies are based on `babel`. Additionally `eslint` and `tape` are used to grant a high quality implementation.
+The plugin is implemented in ECMAScript 6. Additionally `standard` and `tape` are used to grant a high quality implementation.
 
 **bissle** is the Swabian term for *a little bit*, it should visualize the sense of pagination.
 
 ## Installation
 For installation use the [Node Package Manager](https://github.com/npm/npm):
 ```
-// production version with ES5 syntax
 $ npm install --save bissle
 ```
 
 or clone the repository:
 ```
-// development version with ES6 syntax
 $ git clone https://github.com/felixheck/bissle
 ```
 
 Alternatively use the [Yarn Package Manager](https://yarnpkg.com):
 ```
-// production version with ES5 syntax
 $ yarn add bissle
 ```
 
@@ -75,7 +72,7 @@ server.register([akaya, bissle], err => {
 After registering **bissle**, the [HapiJS reply interface](http://hapijs.com/api#reply-interface) will be decorated with the new method `reply.bissle()`.
 
 #### Joi Validation
-If you use **Joi** for request validation, simply add `per_page` and `page` to the query scheme. The plugin exposes the all *bissle* related scheme via `server.plugins.bissle.scheme`. Alternatively it is possible to enable the `allowUnknown` option.<br>The exposed object contains additionally the scheme for plugin related options.
+If you use **Joi** for request validation, simply add the parameters to the query scheme. The plugin exposes the all *bissle* related scheme via `server.plugins.bissle.scheme`. Alternatively it is possible to enable the `allowUnknown` option.<br>The exposed object contains additionally the scheme for plugin related options.
 
 ## API
 #### Plugin Options
@@ -83,7 +80,7 @@ While the plugin registration it is possible to pass a [plugin specific options 
 - `options {Object}` - The plugin specific options object.
   - `absolute {boolean}` - If the pagination links (not the `Link` header) should be absolute or not.<br>Default: `false`.
   - `paramNames {Object}` - Config object for overriding default parameter names output in the response
-    - `per_page {string}` - Parameter name for describing the page limit <br>Default: `per_page`
+    - `perPage {string}` - Parameter name for describing the page limit <br>Default: `per_page`
     - `page {string}` - Parameter name for describing the current page <br>Default: `page`
     - `total {string}` - Parameter name for describing the total item count <br>Default: `total`
 
@@ -93,7 +90,7 @@ An additional reply interface for paginated responses.
 - `response {Object}` - The result to be decorated and replied.
 - `options {Object}` - The custom default values.
   - `key {string}` - The access key of `response` to get the result to be paginated.<br>Default: `'result'`.
-  - `per_page {number}` - The default entries per page if none is defined in the query string.<br>Default: `100`.<br>Range: `1-500`.
+  - `perPage {number}` - The default entries per page if none is defined in the query string.<br>Default: `100`.<br>Range: `1-500`.
   - `total {number}` - Overwrite the internally generated `total` value and avoid data splicing. The passed response get returned without internally done pagination. Just meta information and the `Link` header get added.<br>Default: `null`.<br>Range: `>=0`.
 
 ##Example

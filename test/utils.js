@@ -1,9 +1,9 @@
-const Hapi = require('hapi');
-const akaya = require('akaya');
-const qs = require('qs');
-const url = require('url');
-const plugin = require('../src');
-const mockResponse = require('./index.mock');
+const Hapi = require('hapi')
+const akaya = require('akaya')
+const qs = require('qs')
+const url = require('url')
+const plugin = require('../src')
+const mockResponse = require('./index.mock')
 
 /**
  * @type {Object}
@@ -15,11 +15,11 @@ const mockResponse = require('./index.mock');
 const mockPluginOptions = {
   absolute: false,
   paramNames: {
-    per_page: 'per_page',
+    perPage: 'per_page',
     page: 'page',
-    total: 'total',
-  },
-};
+    total: 'total'
+  }
+}
 
 /**
  * @function
@@ -33,18 +33,18 @@ const mockPluginOptions = {
  * @returns {Object} The needed fixtures
  */
 const setup = (options, pluginOptions) => {
-  pluginOptions = pluginOptions || mockPluginOptions;
+  pluginOptions = pluginOptions || mockPluginOptions
 
-  const key = options && options.key || 'result';
+  const key = options && options.key || 'result'
   const fixtures = {
     server: new Hapi.Server(),
-    host: 'http://localhost:1337/',
-  };
+    host: 'http://localhost:1337/'
+  }
 
   fixtures.server.connection({
     port: 1337,
     host: 'localhost'
-  });
+  })
 
   fixtures.server.route([
     {
@@ -54,8 +54,8 @@ const setup = (options, pluginOptions) => {
         id: 'foo',
         handler: function (request, reply) {
           return reply.bissle({ [key]: Array.from(mockResponse) }, options)
-        },
-      },
+        }
+      }
     },
     {
       method: 'GET',
@@ -63,26 +63,26 @@ const setup = (options, pluginOptions) => {
       config: {
         handler: function (request, reply) {
           return reply.bissle({ [key]: Array.from(mockResponse) }, options)
-        },
-      },
-    },
-  ]);
+        }
+      }
+    }
+  ])
 
   fixtures.server.register([{
-    register: akaya,
+    register: akaya
   }, {
     register: plugin,
-    options: pluginOptions,
-  }], err => {});
+    options: pluginOptions
+  }], () => {})
 
-  return fixtures;
-};
+  return fixtures
+}
 
-const getQueries = path => qs.parse(url.parse(path).query).query;
-const getParams = path => qs.parse(url.parse(path).query).params;
+const getQueries = path => qs.parse(url.parse(path).query).query
+const getParams = path => qs.parse(url.parse(path).query).params
 
 module.exports = {
   setup,
   getQueries,
-  getParams,
-};
+  getParams
+}

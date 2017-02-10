@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const _ = require('lodash')
 
 /**
  * @function
@@ -10,18 +10,18 @@ const _ = require('lodash');
  * @param {Object.<?string>} links The entity/href mapping of pagination links
  * @returns {string} Parsed Link header value if links available
  */
-function getLinkHeader(links) {
-  const linkHeader = [];
+function getLinkHeader (links) {
+  const linkHeader = []
 
   _.forOwn(links, (link, entity) => {
     if (entity !== 'self') {
-      linkHeader.push(`<${link.href}>; rel="${entity}"`);
+      linkHeader.push(`<${link.href}>; rel="${entity}"`)
     }
-  });
+  })
 
-  return linkHeader.join(', ') || undefined;
+  return linkHeader.join(', ') || undefined
 }
 
 module.exports = {
-  getLink: getLinkHeader,
-};
+  getLink: getLinkHeader
+}

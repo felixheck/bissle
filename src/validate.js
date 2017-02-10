@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const _ = require('lodash')
 
 /**
  * @function
@@ -10,8 +10,8 @@ const _ = require('lodash');
  * @param {number} total The per_page parameter to be validated
  * @returns {boolean} The parameter is valid
  */
-function validateTotal(total) {
-  return _.toInteger(total) >= 0 && !_.isString(total);
+function validateTotal (total) {
+  return _.toInteger(total) >= 0 && !_.isString(total)
 }
 
 /**
@@ -21,11 +21,11 @@ function validateTotal(total) {
  * @description
  * Validate the per_page parameter in the query or the options
  *
- * @param {number} per_page The per_page parameter to be validated
+ * @param {number} perPage The per_page parameter to be validated
  * @returns {boolean} The parameter is valid
  */
-function validatePerPage(per_page) {
-  return _.inRange(_.toInteger(per_page), 1, 500 + 1);
+function validatePerPage (perPage) {
+  return _.inRange(_.toInteger(perPage), 1, 500 + 1)
 }
 
 /**
@@ -38,10 +38,10 @@ function validatePerPage(per_page) {
  * @param {Object} options The options to be validated
  * @returns {boolean} The options are valid
  */
-function validateOptions(options) {
+function validateOptions (options) {
   return _.isString(options.key) &&
-    validatePerPage(options.per_page) &&
-    validateTotal(options.total);
+    validatePerPage(options.perPage) &&
+    validateTotal(options.total)
 }
 
 /**
@@ -56,15 +56,14 @@ function validateOptions(options) {
  * @param {Object} paramNames The names of the query params
  * @returns {Object} The query parameters are valid
  */
-function validateQuery(query, options, paramNames) {
-  query[paramNames.per_page] = _.toInteger(query[paramNames.per_page] || options.per_page);
-  query[paramNames.page] = _.toInteger(query[paramNames.page] || 1);
+function validateQuery (query, options, paramNames) {
+  query[paramNames.perPage] = _.toInteger(query[paramNames.perPage] || options.perPage)
+  query[paramNames.page] = _.toInteger(query[paramNames.page] || 1)
 
-  return query[paramNames.page] >= 1 && validatePerPage(query[paramNames.per_page]);
+  return query[paramNames.page] >= 1 && validatePerPage(query[paramNames.perPage])
 }
-
 
 module.exports = {
   options: validateOptions,
-  query: validateQuery,
-};
+  query: validateQuery
+}

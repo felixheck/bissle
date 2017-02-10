@@ -1,5 +1,5 @@
-const qs = require('qs');
-const _ = require('lodash');
+const qs = require('qs')
+const _ = require('lodash')
 
 /**
  * @function
@@ -12,8 +12,8 @@ const _ = require('lodash');
  * @param {*} condition The condition to be checked for
  * @returns {* | undefined} The minimized parameter value
  */
-function minimizeQueryParameter(param, condition) {
-  return param === condition ? undefined : param;
+function minimizeQueryParameter (param, condition) {
+  return param === condition ? undefined : param
 }
 
 /**
@@ -26,12 +26,12 @@ function minimizeQueryParameter(param, condition) {
  * @param {Object} links The links to be halified
  * @returns {Object} The halified links object
  */
-function halifyLinks(links) {
+function halifyLinks (links) {
   _.forOwn(links, (href, entity) => {
     links[entity] = {
-      href,
-    };
-  });
+      href
+    }
+  })
 }
 
 /**
@@ -45,18 +45,18 @@ function halifyLinks(links) {
  * @param {Object} pluginOptions The plugin related options
  * @returns {string} The request url
  */
-function getRequestUrl(request, pluginOptions) {
-  const proxyProtocol = request.headers && request.headers['x-forwarded-proto'];
-  const protocol = proxyProtocol || request.connection.info.protocol;
-  let requestUrl;
+function getRequestUrl (request, pluginOptions) {
+  const proxyProtocol = request.headers && request.headers['x-forwarded-proto']
+  const protocol = proxyProtocol || request.connection.info.protocol
+  let requestUrl
 
   if (pluginOptions.absolute) {
-    requestUrl = `${protocol}://${request.info.host}${request.url.pathname}`;
+    requestUrl = `${protocol}://${request.info.host}${request.url.pathname}`
   } else {
-    requestUrl = request.url.pathname;
+    requestUrl = request.url.pathname
   }
 
-  return requestUrl;
+  return requestUrl
 }
 
 /**
@@ -67,22 +67,22 @@ function getRequestUrl(request, pluginOptions) {
  * Get link of the requested resource itself
  *
  * @param {number} page The requested page
- * @param {number} per_page The requested items per page
+ * @param {number} perPage The requested items per page
  * @param {Object} request The related request object
  * @param {Object} options The request related options
  * @param {Object} pluginOptions The plugin related options
  * @returns {string} The generated resource link
  */
-function getSelfLink(page, per_page, request, options, pluginOptions) {
-  const requestPath = getRequestUrl(request, pluginOptions);
+function getSelfLink (page, perPage, request, options, pluginOptions) {
+  const requestPath = getRequestUrl(request, pluginOptions)
 
-  const paramNames = pluginOptions.paramNames;
+  const paramNames = pluginOptions.paramNames
   const query = qs.stringify(Object.assign({}, request.query, {
-    [paramNames.per_page]: minimizeQueryParameter(per_page, options.per_page),
-    [paramNames.page]: minimizeQueryParameter(page, 1),
-  }));
+    [paramNames.perPage]: minimizeQueryParameter(perPage, options.perPage),
+    [paramNames.page]: minimizeQueryParameter(page, 1)
+  }))
 
-  return query ? `${requestPath}?${query}` : requestPath;
+  return query ? `${requestPath}?${query}` : requestPath
 }
 
 /**
@@ -93,7 +93,7 @@ function getSelfLink(page, per_page, request, options, pluginOptions) {
  * Get pagination link generator with predefined values
  *
  * @param {string} id The endpoint ID
- * @param {number} per_page The number of entries per page
+ * @param {number} perPage The number of entries per page
  * @param {Object} options The related options
  * @param {Object} requestObj The related query parameters
  * @param {Function} aka The request bound akaya function for link building
@@ -101,22 +101,22 @@ function getSelfLink(page, per_page, request, options, pluginOptions) {
  * @param {Object} paramNames The names of the query params
  * @returns {Function} The predefined pagination link generator
  */
-function getPaginationLink(id, per_page, options, requestObj, aka, absolute, paramNames) {
-  per_page = minimizeQueryParameter(per_page, options.per_page);
+function getPaginationLink (id, perPage, options, requestObj, aka, absolute, paramNames) {
+  perPage = minimizeQueryParameter(perPage, options.perPage)
 
   return (page) => {
-    page = minimizeQueryParameter(page, 1);
+    page = minimizeQueryParameter(page, 1)
 
     return aka(id, {
       query: Object.assign({}, requestObj.query, {
         [paramNames.page]: page,
-        [paramNames.per_page]: per_page,
+        [paramNames.perPage]: perPage
       }),
-      params: requestObj.params,
+      params: requestObj.params
     }, {
-      rel: !absolute,
-    });
-  };
+      rel: !absolute
+    })
+  }
 }
 
 /**
@@ -128,7 +128,7 @@ function getPaginationLink(id, per_page, options, requestObj, aka, absolute, par
  *
  * @param {string} id The endpoint ID
  * @param {number} page The requested page
- * @param {number} per_page The number of entries per page
+ * @param {number} perPage The number of entries per page
  * @param {number} total The total number of entries
  * @param {Object} requestObj The related query parameters
  * @param {Function} aka The request bound akaya function for link building
@@ -136,31 +136,31 @@ function getPaginationLink(id, per_page, options, requestObj, aka, absolute, par
  * @param {Object} pluginOptions The plugin related options
  * @returns {Object.<?string>} The mapping of pagination links
  */
-function getPaginationLinks(id, page, per_page, total, requestObj, aka, options, pluginOptions) {
+function getPaginationLinks (id, page, perPage, total, requestObj, aka, options, pluginOptions) {
   const getLink = getPaginationLink(
-    id, per_page, options, requestObj, aka, pluginOptions.absolute, pluginOptions.paramNames
-  );
-  const lastPage = Math.ceil(total / per_page);
-  const links = {};
+    id, perPage, options, requestObj, aka, pluginOptions.absolute, pluginOptions.paramNames
+  )
+  const lastPage = Math.ceil(total / perPage)
+  const links = {}
 
-  links.self = getSelfLink(page, per_page, requestObj, options, pluginOptions);
-  links.first = getLink(undefined);
+  links.self = getSelfLink(page, perPage, requestObj, options, pluginOptions)
+  links.first = getLink(undefined)
 
   if (page > 1 && page <= lastPage) {
-    links.prev = getLink(page - 1);
+    links.prev = getLink(page - 1)
   }
 
   if (page < lastPage && page >= 1) {
-    links.next = getLink(page + 1);
+    links.next = getLink(page + 1)
   }
 
-  links.last = getLink(lastPage);
+  links.last = getLink(lastPage)
 
-  halifyLinks(links);
+  halifyLinks(links)
 
-  return links;
+  return links
 }
 
 module.exports = {
-  getLinks: getPaginationLinks,
-};
+  getLinks: getPaginationLinks
+}
