@@ -1,9 +1,6 @@
 # IDE files
 .idea
 
-# Compiled files
-lib/
-
 # Dependencies
 node_modules
 
@@ -18,6 +15,3 @@ pids
 
 # Coverage
 coverage
-
-# Documentation
-docs
