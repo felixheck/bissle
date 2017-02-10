@@ -150,13 +150,13 @@ test('bissle/validate.query >> is valid | custom values', t => {
   }
 
   const query = {
-    currentPage: 2,
-    pageSize: 100
+    page: 2,
+    per_page: 100
   }
 
   t.equal(validate.query(query, options, paramNames), true)
-  t.equal(query.currentPage, 2)
-  t.equal(query.pageSize, 100)
+  t.equal(query.page, 2)
+  t.equal(query.per_page, 100)
   t.end()
 })
 
@@ -166,13 +166,19 @@ test('bissle/validate.query >> is valid | custom values with custom param names'
   }
 
   const query = {
-    page: 2,
-    perPage: 100
+    currentPage: 2,
+    pageSize: 100
   }
 
-  t.equal(validate.query(query, options, paramNames), true)
-  t.equal(query.page, 2)
-  t.equal(query.per_page, 100)
+  const customParamNames = {
+    perPage: 'pageSize',
+    page: 'currentPage',
+    total: 'totalCount'
+  }
+
+  t.equal(validate.query(query, options, customParamNames), true)
+  t.equal(query.currentPage, 2)
+  t.equal(query.pageSize, 100)
   t.end()
 })
 
@@ -183,7 +189,7 @@ test('bissle/validate.query >> is valid | edge minimum cases', t => {
 
   const query = {
     page: 1,
-    perPage: 1
+    per_page: 1
   }
 
   t.equal(validate.query(query, options, paramNames), true)
@@ -199,7 +205,7 @@ test('bissle/validate.query >> is valid | edge maximum cases', t => {
 
   const query = {
     page: 1,
-    perPage: 500
+    per_page: 500
   }
 
   t.equal(validate.query(query, options, paramNames), true)
@@ -215,7 +221,7 @@ test('bissle/validate.query >> is valid | number-like strings', t => {
 
   const query = {
     page: '1',
-    perPage: '1'
+    per_page: '1'
   }
 
   t.equal(validate.query(query, options, paramNames), true)
@@ -231,7 +237,7 @@ test('bissle/validate.query >> is valid | page converted to default', t => {
 
   const query = {
     page: 0,
-    perPage: 1
+    per_page: 1
   }
 
   t.equal(validate.query(query, options, paramNames), true)
@@ -247,7 +253,7 @@ test('bissle/validate.query >> is valid | per_page converted to default', t => {
 
   const query = {
     page: 1,
-    perPage: 0
+    per_page: 0
   }
 
   t.equal(validate.query(query, options, paramNames), true)
@@ -263,7 +269,7 @@ test('bissle/validate.query >> is not valid | page is negative', t => {
 
   const query = {
     page: -1,
-    perPage: 1
+    per_page: 1
   }
 
   t.equal(validate.query(query, options, paramNames), false)
@@ -279,7 +285,7 @@ test('bissle/validate.query >> is valid | page is boolean', t => {
 
   const query = {
     page: false,
-    perPage: 1
+    per_page: 1
   }
 
   t.equal(validate.query(query, options, paramNames), true)
@@ -295,7 +301,7 @@ test('bissle/validate.query >> is valid | per_page is boolean', t => {
 
   const query = {
     page: 1,
-    perPage: false
+    per_page: false
   }
 
   t.equal(validate.query(query, options, paramNames), true)
@@ -311,7 +317,7 @@ test('bissle/validate.query >> is not valid | page is string', t => {
 
   const query = {
     page: 'foo',
-    perPage: 1
+    per_page: 1
   }
 
   t.equal(validate.query(query, options, paramNames), false)
@@ -327,7 +333,7 @@ test('bissle/validate.query >> is not valid | per_page is string', t => {
 
   const query = {
     page: 1,
-    perPage: 'foo'
+    per_page: 'foo'
   }
 
   t.equal(validate.query(query, options, paramNames), false)
@@ -343,7 +349,7 @@ test('bissle/validate.query >> is not valid | per_page out of range', t => {
 
   const query = {
     page: 1,
-    perPage: 1000
+    per_page: 1000
   }
 
   t.equal(validate.query(query, options, paramNames), false)

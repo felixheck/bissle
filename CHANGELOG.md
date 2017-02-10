@@ -1,11 +1,15 @@
 # master
 
 ### unreleased
+
+### [v1.2.0] - 2017-02-10
 - **rmv:** eslint and babel
 - **add:** standard
 - **fix:** es6 compatibility
 - **fix:** linting errors
 - **doc:** adjust changes
+- **fix:** flaws and tests
+- **doc:** bump version
 
 ### [v1.1.0] - 2017-02-09
 - **fix:** flaws related to routes with parameters

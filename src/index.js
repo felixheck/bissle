@@ -1,6 +1,6 @@
 /*!
  * @author Felix Heck <hi@whoTheHeck.de>
- * @version 1.1.0
+ * @version 1.2.0
  * @copyright Felix Heck 2016-2017
  * @license MIT
  */
@@ -101,9 +101,8 @@ function bissle (server, pluginOptions, next) {
     if (!validate.query(this.request.query, options, pluginOptions.paramNames)) {
       return this.response(Boom.badRequest(errors.invalidQuery))
     }
-
     const page = this.request.query[paramNames.page]
-    const perPage = this.request.query[paramNames.per_page]
+    const perPage = this.request.query[paramNames.perPage]
     const offset = (page - 1) * perPage
 
     if (options.total !== null) {
@@ -130,7 +129,7 @@ function bissle (server, pluginOptions, next) {
     return this.response(Object.assign(res, {
       [options.key]: result,
       _links: links,
-      [paramNames.per_page]: perPage,
+      [paramNames.perPage]: perPage,
       [paramNames.page]: page,
       [paramNames.total]: total
     })).header('link', linkHeader)

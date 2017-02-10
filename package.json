@@ -30,7 +30,7 @@
     "coverage": "NODE_ENV=test istanbul cover tape -- test/**/*.spec.js | tap-spec",
     "lint": "standard",
     "start": "watch 'npm test' src test --wait 5 --interval 1",
-    "test": "NODE_ENV=test tape test/**/*.spec.js | tap-spec",
+    "test": "NODE_ENV=test tape test/**/validate.spec.js | tap-spec",
     "precoverage": "rm -rf coverage"
   },
   "devDependencies": {
