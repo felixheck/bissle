@@ -1,6 +1,7 @@
 # master
 
 ### unreleased
+- **add:** .editorconfig
 
 ### [v1.2.3] - 2017-02-10
 - **fix:** dependencies
