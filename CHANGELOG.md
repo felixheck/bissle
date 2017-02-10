@@ -2,6 +2,10 @@
 
 ### unreleased
 
+### [v1.2.1] - 2017-02-10
+- **doc:** add engines
+- **doc:** bump version
+
 ### [v1.2.0] - 2017-02-10
 - **rmv:** eslint and babel
 - **add:** standard

@@ -51,5 +51,9 @@
   "peerDependencies": {
     "akaya": ">= 0.x.x",
     "hapi": ">= 13.x.x"
+  },
+  "engines": {
+    "node": ">=6.0.0",
+    "npm": ">=3.8.8"
   }
 }
