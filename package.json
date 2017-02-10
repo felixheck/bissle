@@ -36,6 +36,7 @@
   "devDependencies": {
     "hapi": "^15.2.0",
     "istanbul": "^1.0.0-alpha.2",
+    "standard": "^8.6.0",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.2",
     "watch": "^1.0.1"
@@ -45,8 +46,7 @@
     "boom": "^4.2.0",
     "joi": "^9.2.0",
     "lodash": "^4.16.4",
-    "qs": "^6.3.0",
-    "standard": "^8.6.0"
+    "qs": "^6.3.0"
   },
   "peerDependencies": {
     "akaya": ">= 0.x.x",
