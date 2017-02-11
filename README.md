@@ -1,8 +1,7 @@
 # bissle
 #### Minimalist HALicious pagination reply interface for [HapiJS](https://github.com/hapijs/hapi)
 
-[![Travis](https://img.shields.io/travis/felixheck/bissle.svg)](https://travis-ci.org/felixheck/bissle/builds/) ![npm](https://img.shields.io/npm/dt/bissle.svg)
-
+[![Travis](https://img.shields.io/travis/felixheck/bissle.svg)](https://travis-ci.org/felixheck/bissle/builds/) ![node](https://img.shields.io/node/v/bissle.svg) ![npm](https://img.shields.io/npm/dt/bissle.svg) [![standard](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/) ![npm](https://img.shields.io/npm/l/bissle.svg)
 ---
 
 1. [Introduction](#introduction)
