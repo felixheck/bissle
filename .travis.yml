@@ -4,6 +4,9 @@ node_js:
   - 6
   - 7
 
+before_script:
+- npm install
+
 script:
-  - 'npm run lint'
-  - 'npm test'
+- npm run lint
+- npm test
