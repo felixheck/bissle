@@ -35,7 +35,7 @@ const mockPluginOptions = {
 const setup = (options, pluginOptions) => {
   pluginOptions = pluginOptions || mockPluginOptions
 
-  const key = options && options.key || 'result'
+  const key = (options && options.key) || 'result'
   const fixtures = {
     server: new Hapi.Server(),
     host: 'http://localhost:1337/'
