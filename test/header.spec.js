@@ -1,15 +1,14 @@
-const test = require('tape').test
+const test = require('ava')
 const _ = require('lodash')
 const header = require('../src/header')
 
-test('bissle/header >> parses no link header', t => {
+test('do not parse link header', (t) => {
   const links = {}
 
-  t.equal(header.getLink(links), undefined)
-  t.end()
+  t.is(header.getLink(links), undefined)
 })
 
-test('bissle/header >> parses link header', t => {
+test('parse the related link header', (t) => {
   const links = {
     'prev': { href: 'foo' },
     'last': { href: 'bar' }
@@ -19,8 +18,7 @@ test('bissle/header >> parses link header', t => {
   const matchedEntities = header.getLink(links).match(/<.*?>/g)
   const result = _.every(splitLinks, splitLink => splitLink.match(/<.*>; rel=".*"/))
 
-  t.equal(splitLinks.length, 2)
+  t.is(splitLinks.length, 2)
   t.deepEqual(matchedEntities, ['<foo>', '<bar>'])
-  t.equal(result, true)
-  t.end()
+  t.truthy(result)
 })

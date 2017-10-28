@@ -1,22 +1,22 @@
-const test = require('tape').test
+const test = require('ava')
 const _ = require('lodash')
 const errors = require('../src/errors')
-const { setup } = require('./utils')
+const { setup } = require('./_helpers')
 
-test('bissle/options >> adjust the default entries per page', t => {
-  const { server } = setup({ perPage: 3 })
+test.only('adjust the default entries per page', async (t) => {
+  const { server } = await setup({ perPage: 3 })
+  const response = await server.inject('/')
 
-  server.inject('/', response => {
-    t.equal(response.result.result.length, 3)
-    t.equal(response.result.total, 9)
-    t.equal(response.result.per_page, 3)
-    t.equal(response.result.page, 1)
-    t.deepEqual(_.keys(response.result._links).sort(), ['self', 'first', 'last', 'next'].sort())
-    t.end()
-  })
+  console.log(response.result);
+
+  t.is(response.result.result.length, 3)
+  t.is(response.result.total, 9)
+  t.is(response.result.per_page, 3)
+  t.is(response.result.page, 1)
+  t.deepEqual(_.keys(response.result._links).sort(), ['self', 'first', 'last', 'next'].sort())
 })
 
-test('bissle/options >> adjust the default entries per page | 1000', t => {
+test('adjust the default entries per page | 1000', t => {
   const { server } = setup({ perPage: 1000 })
 
   server.inject('/', response => {
@@ -26,7 +26,7 @@ test('bissle/options >> adjust the default entries per page | 1000', t => {
   })
 })
 
-test('bissle/options >> adjust the default entries per page | 0', t => {
+test('adjust the default entries per page | 0', t => {
   const { server } = setup({ perPage: 0 })
 
   server.inject('/', response => {
@@ -36,7 +36,7 @@ test('bissle/options >> adjust the default entries per page | 0', t => {
   })
 })
 
-test('bissle/options >> adjust the total option', t => {
+test('adjust the total option', t => {
   const { server } = setup({ total: 5 })
 
   server.inject('/?page=2&per_page=2', response => {
@@ -49,7 +49,7 @@ test('bissle/options >> adjust the total option', t => {
   })
 })
 
-test('bissle/options >> adjust the total option | -1', t => {
+test('adjust the total option | -1', t => {
   const { server } = setup({ total: -1 })
 
   server.inject('/', response => {
@@ -59,7 +59,7 @@ test('bissle/options >> adjust the total option | -1', t => {
   })
 })
 
-test('bissle/options >> adjust the total option | \'foo\'', t => {
+test('adjust the total option | \'foo\'', t => {
   const { server } = setup({ total: 'foo' })
 
   server.inject('/?page=2&per_page=2', response => {
@@ -69,7 +69,7 @@ test('bissle/options >> adjust the total option | \'foo\'', t => {
   })
 })
 
-test('bissle/options >> adjust the default access key', t => {
+test('adjust the default access key', t => {
   const { server } = setup({ key: 'foo' })
 
   server.inject('/', response => {
@@ -82,7 +82,7 @@ test('bissle/options >> adjust the default access key', t => {
   })
 })
 
-test('bissle/options >> adjust the default access key | 0', t => {
+test('adjust the default access key | 0', t => {
   const { server } = setup({ key: 0 })
 
   server.inject('/', response => {
@@ -92,7 +92,7 @@ test('bissle/options >> adjust the default access key | 0', t => {
   })
 })
 
-test('bissle/options >> adjust the default entries per page | undefined', t => {
+test('adjust the default entries per page | undefined', t => {
   const { server } = setup({ key: undefined })
 
   server.inject('/', response => {

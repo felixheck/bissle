@@ -1,10 +1,3 @@
-/*!
- * @author Felix Heck <hi@whoTheHeck.de>
- * @version 1.2.3
- * @copyright Felix Heck 2016-2017
- * @license MIT
- */
-
 const Joi = require('joi')
 const Boom = require('boom')
 const errors = require('./errors')
@@ -77,9 +70,8 @@ function setParamScheme (paramNames) {
  *
  * @param {Object} server The server to be extended
  * @param {Object} pluginOptions The plugin options
- * @param {Function} next The callback to continue in the chain of plugins
  */
-function bissle (server, pluginOptions, next) {
+function bissle (server, pluginOptions) {
   pluginOptions = Joi.attempt(pluginOptions, internals.scheme.pluginOptions)
 
   const paramNames = pluginOptions.paramNames
@@ -88,7 +80,7 @@ function bissle (server, pluginOptions, next) {
   server.expose('scheme', internals.scheme)
   server.dependency('akaya')
 
-  server.decorate('reply', 'bissle', function decorator (res, options) {
+  server.decorate('toolkit', 'bissle', function decorator (res, options) {
     let result
     let total
 
@@ -134,14 +126,9 @@ function bissle (server, pluginOptions, next) {
       [paramNames.total]: total
     })).header('link', linkHeader)
   })
-
-  return next()
-}
-
-bissle.attributes = {
-  pkg
 }
 
 module.exports = {
-  register: bissle
+  register: bissle,
+  pkg
 }

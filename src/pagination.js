@@ -28,9 +28,7 @@ function minimizeQueryParameter (param, condition) {
  */
 function halifyLinks (links) {
   _.forOwn(links, (href, entity) => {
-    links[entity] = {
-      href
-    }
+    links[entity] = { href }
   })
 }
 
@@ -48,12 +46,10 @@ function halifyLinks (links) {
 function getRequestUrl (request, pluginOptions) {
   const proxyProtocol = request.headers && request.headers['x-forwarded-proto']
   const protocol = proxyProtocol || request.connection.info.protocol
-  let requestUrl
+  let requestUrl = request.url.pathname
 
   if (pluginOptions.absolute) {
-    requestUrl = `${protocol}://${request.info.host}${request.url.pathname}`
-  } else {
-    requestUrl = request.url.pathname
+    requestUrl = `${protocol}://${request.info.host}${requestUrl}`
   }
 
   return requestUrl
@@ -113,9 +109,7 @@ function getPaginationLink (id, perPage, options, requestObj, aka, absolute, par
         [paramNames.perPage]: perPage
       }),
       params: requestObj.params
-    }, {
-      rel: !absolute
-    })
+    }, { rel: !absolute })
   }
 }
 

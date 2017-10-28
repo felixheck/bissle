@@ -1,4 +1,4 @@
-const mockResponse = [
+module.exports = [
   {
     '_id': '1',
     'title': '1_foo'
@@ -36,5 +36,3 @@ const mockResponse = [
     'title': '9_foo'
   }
 ]
-
-module.exports = mockResponse

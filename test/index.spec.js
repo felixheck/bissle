@@ -3,7 +3,7 @@ const _ = require('lodash')
 const errors = require('../src/errors')
 const { setup } = require('./utils')
 
-test('bissle.pluginOptions >> returns relative links', t => {
+test('return relative links', t => {
   const { host, server } = setup({}, { absolute: false })
 
   server.inject('/', response => {
@@ -12,12 +12,12 @@ test('bissle.pluginOptions >> returns relative links', t => {
   })
 })
 
-test('bissle.pluginOptions >> throws error if plugin specific options invalid', t => {
+test('throw error if plugin specific options invalid', t => {
   t.throws(() => setup({}, { foo: true }), /Error/)
   t.end()
 })
 
-test('bissle >> request without query parameters', t => {
+test('request without query parameters', t => {
   const { server } = setup()
 
   server.inject('/', response => {
@@ -30,7 +30,7 @@ test('bissle >> request without query parameters', t => {
   })
 })
 
-test('bissle >> request without query parameters | custom param names', t => {
+test('request without query parameters | custom param names', t => {
   const { server } = setup(null, {
     absolute: false,
     paramNames: {
@@ -50,7 +50,7 @@ test('bissle >> request without query parameters | custom param names', t => {
   })
 })
 
-test('bissle >> request with custom "per_page" query parameter | first page', t => {
+test('request with custom "per_page" query parameter | first page', t => {
   const { server } = setup(null, {
     absolute: false,
     paramNames: {
@@ -71,7 +71,7 @@ test('bissle >> request with custom "per_page" query parameter | first page', t 
   })
 })
 
-test('bissle >> request with "per_page" query parameter | first page', t => {
+test('request with "per_page" query parameter | first page', t => {
   const { server } = setup()
 
   server.inject('/?per_page=3', response => {
@@ -85,7 +85,7 @@ test('bissle >> request with "per_page" query parameter | first page', t => {
   })
 })
 
-test('bissle >> request with "page" query parameter | -1', t => {
+test('request with "page" query parameter | -1', t => {
   const { server } = setup()
 
   server.inject('/?page=-1', response => {
@@ -95,7 +95,7 @@ test('bissle >> request with "page" query parameter | -1', t => {
   })
 })
 
-test('bissle >> request with "per_page" query parameter | -1', t => {
+test('request with "per_page" query parameter | -1', t => {
   const { server } = setup()
 
   server.inject('/?per_page=-1', response => {
@@ -105,7 +105,7 @@ test('bissle >> request with "per_page" query parameter | -1', t => {
   })
 })
 
-test('bissle >> request with "per_page" query parameter | 1000', t => {
+test('request with "per_page" query parameter | 1000', t => {
   const { server } = setup()
 
   server.inject('/?per_page=1000', response => {
@@ -115,7 +115,7 @@ test('bissle >> request with "per_page" query parameter | 1000', t => {
   })
 })
 
-test('bissle >> request with both query parameters | last page', t => {
+test('request with both query parameters | last page', t => {
   const { server } = setup()
 
   server.inject('/?page=3&per_page=3', response => {
@@ -129,7 +129,7 @@ test('bissle >> request with both query parameters | last page', t => {
   })
 })
 
-test('bissle >> request with both query parameters | not available', t => {
+test('request with both query parameters | not available', t => {
   const { server } = setup()
 
   server.inject('/?page=4&per_page=3', response => {
@@ -142,7 +142,7 @@ test('bissle >> request with both query parameters | not available', t => {
   })
 })
 
-test('bissle >> route have no defined ID', t => {
+test('route have no defined ID', t => {
   const { server } = setup()
 
   server.inject('/page?page=4&per_page=3', response => {
@@ -152,7 +152,7 @@ test('bissle >> route have no defined ID', t => {
   })
 })
 
-test('bissle >> append all passed query parameters', t => {
+test('append all passed query parameters', t => {
   const { server } = setup()
 
   server.inject('/?page=4&per_page=3&fields=foo', response => {
@@ -162,7 +162,7 @@ test('bissle >> append all passed query parameters', t => {
   })
 })
 
-test('bissle >> append all passed query parameters | custom param names', t => {
+test('append all passed query parameters | custom param names', t => {
   const { server } = setup(null, {
     absolute: false,
     paramNames: {
@@ -179,7 +179,7 @@ test('bissle >> append all passed query parameters | custom param names', t => {
   })
 })
 
-test('bissle >> exposed query schema', t => {
+test('exposed query schema', t => {
   const { server } = setup()
 
   t.deepEqual(_.keys(server.plugins.bissle.scheme).sort(), ['page', 'per_page', 'pluginOptions'])
@@ -187,7 +187,7 @@ test('bissle >> exposed query schema', t => {
   t.end()
 })
 
-test('bissle >> exposed query schema | custom param names', t => {
+test('exposed query schema | custom param names', t => {
   const { server } = setup(null, {
     absolute: false,
     paramNames: {
