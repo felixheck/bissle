@@ -1,5 +1,5 @@
 # bissle
-#### Minimalist HALicious pagination reply interface for [HapiJS](https://github.com/hapijs/hapi)
+#### Minimalist HALicious pagination reply interface for [hapi.js](https://github.com/hapijs/hapi)
 
 [![Travis](https://img.shields.io/travis/felixheck/bissle.svg)](https://travis-ci.org/felixheck/bissle/builds/) ![node](https://img.shields.io/node/v/bissle.svg) ![npm](https://img.shields.io/npm/dt/bissle.svg) [![standard](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/) ![npm](https://img.shields.io/npm/l/bissle.svg)
 ---
@@ -15,10 +15,10 @@
 
 ## Introduction
 
-This [HapiJS](https://github.com/hapijs/hapi) plugin enables an additional reply interface to paginate a response in a RESTful and [HAL](https://tools.ietf.org/html/draft-kelly-json-hal-06) compliant manner. So the plugin accordingly splices the initial response; extends it with meta information about the count of entries per page, the total count and the current page; adds a link map for HALicious navigation and appends the corresponding `Link` header. It is not a middleware-like plugin, so you are allowed to control the usage explicitly by yourself. Because of this, it works perfectly in combination with HAL plugins like [halacious](https://github.com/bleupen/halacious), as it is shown in the [example](#example) below.
+This [hapi.js](https://github.com/hapijs/hapi) plugin enables an additional reply interface to paginate a response in a RESTful and [HAL](https://tools.ietf.org/html/draft-kelly-json-hal-06) compliant manner. So the plugin accordingly splices the initial response; extends it with meta information about the count of entries per page, the total count and the current page; adds a link map for HALicious navigation and appends the corresponding `Link` header. It is not a middleware-like plugin, so you are allowed to control the usage explicitly by yourself. Because of this, it works perfectly in combination with HAL plugins like [halacious](https://github.com/bleupen/halacious), as it is shown in the [example](#example) below.
 
-This plugin is implemented in ECMAScript 6 without any transpilers like `babel`.<br>
-Additionally `standard` and `tape` are used to grant a high quality implementation.
+The modules [`standard`][standardjs] and [`ava`][avajs] are used to grant a high quality implementation.<br/>
+This major release supports just [hapi.js](https://github.com/hapijs/hapi) `>=v17.0.0` and node `>=v8.0.0` — to support older versions please use `v1.2.4`.
 
 **bissle** is the Swabian term for *a little bit*, it should visualize the sense of pagination.
 
@@ -33,11 +33,6 @@ or clone the repository:
 $ git clone https://github.com/felixheck/bissle
 ```
 
-Alternatively use the [Yarn Package Manager](https://yarnpkg.com):
-```
-$ yarn add bissle
-```
-
 ## Usage
 #### Import
 First you have to import the module and the peer dependency [akaya](https://github.com/felixheck/akaya):
@@ -46,12 +41,11 @@ const bissle = require('bissle');
 const akaya = require('akaya');
 ```
 
-#### Create HapiJS server
-Afterwards create your **HapiJS** server and the corresponding connection if not already done:
+#### Create Hapi server
+Afterwards create your **Hapi.js** server and the corresponding connection if not already done:
 ``` js
-const server = new Hapi.Server();
-
-server.connection({
+const hapi = require('hapi');
+const server = hapi.server({
   port: 1337,
   host: 'localhost',
 });
@@ -60,16 +54,11 @@ server.connection({
 #### Registration
 Finally register the plugins per `server.register()`:
 ``` js
-server.register([akaya, bissle], err => {
-  if (err) {
-    throw err;
-  }
-
-  server.start();
-});
+await server.register([akaya, bissle]);
+await server.start();
 ```
 
-After registering **bissle**, the [HapiJS reply interface](http://hapijs.com/api#reply-interface) will be decorated with the new method `reply.bissle()`.
+After registering **bissle**, the [hapi.js toolkit interface](http://hapijs.com/api#reply-interface) will be decorated with the new method `h.bissle()`.
 
 #### Joi Validation
 If you use **Joi** for request validation, simply add the parameters to the query scheme. The plugin exposes the all *bissle* related scheme via `server.plugins.bissle.scheme`. Alternatively it is possible to enable the `allowUnknown` option.<br>The exposed object contains additionally the scheme for plugin related options.
@@ -86,7 +75,7 @@ While the plugin registration it is possible to pass a [plugin specific options 
 
 #### `reply.bissle(response, [options])`
 
-An additional reply interface for paginated responses.
+An additional toolkit interface for paginated responses.
 - `response {Object}` - The result to be decorated and replied.
 - `options {Object}` - The custom default values.
   - `key {string}` - The access key of `response` to get the result to be paginated.<br>Default: `'result'`.
@@ -97,7 +86,7 @@ An additional reply interface for paginated responses.
 The following example demonstrates the usage of **bissle** in combination with **mongoose**, **halacious** and various utilities.
 
 ```js
-const Hapi = require('hapi');
+const hapi = require('hapi');
 const bissle = require('bissle');
 const halacious = require('halacious');
 const akaya = require('akaya');
@@ -105,44 +94,49 @@ const Boom = require('boom');
 const _ = require('lodash');
 const YourModel = require('./models/yourModel');
 
-const server = new Hapi.Server();
-server.connection({ port: 1337 });
+const server = hapi.server({ port: 1337 });
 
 server.route({
   method: 'GET',
   path: '/',
   config: {
     id: 'root',
-    handler: function (request, reply) {
+    handler (request, h) {
       YourModel.find({}, (err, result) => {
-        if (err) return reply(Boom.badRequest(err));
-        if (!result) return reply(Boom.notFound());
+        if (err) throw Boom.badRequest(err);
+        if (!result) throw Boom.notFound();
 
-        return reply.bissle({ result });
+        return h.bissle({ result });
       });
     },
     plugins: {
       hal: {
-        prepare: function(rep, next) {
+        prepare(rep) {
           _.forEach(rep.entity.result, task => {
             rep.embed('task', `./${task._id}`, task);
           });
-
-          return next();
         },
         ignore: ['result']
       }
     }
 });
 
-server.register([akaya, halacious, {
-  register: bissle,
-  options: { absolute: false }
-}], err => {
-  if (err) throw err;
+process.on('SIGINT', () => {
+  server.stop().then((err) => process.exit(err ? 1 : 0))
+})
 
-  server.start();
-});
+(async () => {
+  try {
+    await server.register([akaya, halacious, {
+      register: bissle,
+      options: { absolute: false }
+    }]);
+    await server.start();
+    console.log('Server started successfully');
+  } catch (err) {
+    console.error(err);
+  }
+})();
 ```
 
 ---

@@ -23,7 +23,7 @@ test('options are valid', (t) => {
       key: 'foo',
       perPage: 42,
       total: 5
-    },
+    }
   ]
 
   t.plan(specs.length)
@@ -81,7 +81,6 @@ test('options are not valid', (t) => {
     t.falsy(validate.options(spec))
   })
 })
-
 
 test('query is valid | default values', (t) => {
   const options = {

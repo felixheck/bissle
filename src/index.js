@@ -87,11 +87,11 @@ function bissle (server, pluginOptions) {
     options = Object.assign({}, internals.defaults, options)
 
     if (!validate.options(options)) {
-      return this.response(Boom.badRequest(errors.invalidOptions))
+      throw Boom.badRequest(errors.invalidOptions)
     }
 
     if (!validate.query(this.request.query, options, pluginOptions.paramNames)) {
-      return this.response(Boom.badRequest(errors.invalidQuery))
+      throw Boom.badRequest(errors.invalidQuery)
     }
     const page = this.request.query[paramNames.page]
     const perPage = this.request.query[paramNames.perPage]
@@ -108,7 +108,7 @@ function bissle (server, pluginOptions) {
     const id = this.request.route.settings.id
 
     if (!id) {
-      return this.response(Boom.badRequest(errors.missingId))
+      throw Boom.badRequest(errors.missingId)
     }
 
     const links = pagination.getLinks(

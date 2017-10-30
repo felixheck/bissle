@@ -29,7 +29,7 @@
   "scripts": {
     "start": "npm test -- -w",
     "lint": "standard",
-    "test": "nyc --check-coverage --lines 60 ava test/header.spec.js --timeout=1m",
+    "test": "nyc --check-coverage --lines 60 ava --timeout=1m",
     "coverage": "nyc report --reporter=lcov"
   },
   "devDependencies": {

@@ -45,7 +45,7 @@ function halifyLinks (links) {
  */
 function getRequestUrl (request, pluginOptions) {
   const proxyProtocol = request.headers && request.headers['x-forwarded-proto']
-  const protocol = proxyProtocol || request.connection.info.protocol
+  const protocol = proxyProtocol || request.server.info.protocol || 'http'
   let requestUrl = request.url.pathname
 
   if (pluginOptions.absolute) {
