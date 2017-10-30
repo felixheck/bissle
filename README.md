@@ -11,7 +11,6 @@
 5. [Example](#example)
 6. [Testing](#testing)
 7. [Contribution](#contribution)
-8. [License](#license)
 
 ## Introduction
 
@@ -58,7 +57,7 @@ await server.register([akaya, bissle]);
 await server.start();
 ```
 
-After registering **bissle**, the [hapi.js toolkit interface](http://hapijs.com/api#reply-interface) will be decorated with the new method `h.bissle()`.
+After registering **bissle**, the [hapi.js response toolkit](http://hapijs.com/api##response-toolkit) will be decorated with the new method `h.bissle()`.
 
 #### Joi Validation
 If you use **Joi** for request validation, simply add the parameters to the query scheme. The plugin exposes the all *bissle* related scheme via `server.plugins.bissle.scheme`. Alternatively it is possible to enable the `allowUnknown` option.<br>The exposed object contains additionally the scheme for plugin related options.
@@ -75,7 +74,7 @@ While the plugin registration it is possible to pass a [plugin specific options 
 
 #### `reply.bissle(response, [options])`
 
-An additional toolkit interface for paginated responses.
+An additional response toolkit for paginated responses.
 - `response {Object}` - The result to be decorated and replied.
 - `options {Object}` - The custom default values.
   - `key {string}` - The access key of `response` to get the result to be paginated.<br>Default: `'result'`.
@@ -283,26 +282,3 @@ $ npm run coverage
 Fork this repository and push in your ideas.
 
 Do not forget to add corresponding tests to keep up 100% test coverage.
-
-## License
-The MIT License
-
-Copyright (c) 2016-2017 Felix Heck
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
