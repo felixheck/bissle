@@ -121,10 +121,6 @@ server.route({
     }
 });
 
-process.on('SIGINT', () => {
-  server.stop().then((err) => process.exit(err ? 1 : 0))
-})
-
 (async () => {
   try {
     await server.register([akaya, halacious, {
