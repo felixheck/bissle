@@ -42,7 +42,7 @@ const akaya = require('akaya');
 ```
 
 #### Create Hapi server
-Afterwards create your **Hapi.js** server and the corresponding connection if not already done:
+Afterwards create your **Hapi.js** server if not already done:
 ``` js
 const hapi = require('hapi');
 const server = hapi.server({
