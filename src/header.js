@@ -4,7 +4,6 @@ const _ = require('lodash')
  * @function
  * @public
  *
- * @description
  * Get Link header value based on pagination links
  *
  * @param {Object.<?string>} links The entity/href mapping of pagination links

@@ -1,10 +1,3 @@
-/*!
- * @author Felix Heck <hi@whoTheHeck.de>
- * @version 1.2.3
- * @copyright Felix Heck 2016-2017
- * @license MIT
- */
-
 const Joi = require('joi')
 const Boom = require('boom')
 const errors = require('./errors')
@@ -77,9 +70,8 @@ function setParamScheme (paramNames) {
  *
  * @param {Object} server The server to be extended
  * @param {Object} pluginOptions The plugin options
- * @param {Function} next The callback to continue in the chain of plugins
  */
-function bissle (server, pluginOptions, next) {
+function bissle (server, pluginOptions) {
   pluginOptions = Joi.attempt(pluginOptions, internals.scheme.pluginOptions)
 
   const paramNames = pluginOptions.paramNames
@@ -88,18 +80,18 @@ function bissle (server, pluginOptions, next) {
   server.expose('scheme', internals.scheme)
   server.dependency('akaya')
 
-  server.decorate('reply', 'bissle', function decorator (res, options) {
+  server.decorate('toolkit', 'bissle', function decorator (res, options) {
     let result
     let total
 
     options = Object.assign({}, internals.defaults, options)
 
     if (!validate.options(options)) {
-      return this.response(Boom.badRequest(errors.invalidOptions))
+      throw Boom.badRequest(errors.invalidOptions)
     }
 
     if (!validate.query(this.request.query, options, pluginOptions.paramNames)) {
-      return this.response(Boom.badRequest(errors.invalidQuery))
+      throw Boom.badRequest(errors.invalidQuery)
     }
     const page = this.request.query[paramNames.page]
     const perPage = this.request.query[paramNames.perPage]
@@ -116,7 +108,7 @@ function bissle (server, pluginOptions, next) {
     const id = this.request.route.settings.id
 
     if (!id) {
-      return this.response(Boom.badRequest(errors.missingId))
+      throw Boom.badRequest(errors.missingId)
     }
 
     const links = pagination.getLinks(
@@ -134,14 +126,9 @@ function bissle (server, pluginOptions, next) {
       [paramNames.total]: total
     })).header('link', linkHeader)
   })
-
-  return next()
-}
-
-bissle.attributes = {
-  pkg
 }
 
 module.exports = {
-  register: bissle
+  register: bissle,
+  pkg
 }

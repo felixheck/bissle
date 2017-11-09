@@ -4,7 +4,7 @@ const akaMock = (id, query) => `/?${qs.stringify(query)}`.replace(/\?$/, '')
 
 const requestObjMock = {
   headers: {},
-  connection: {
+  server: {
     info: {
       protocol: 'http'
     }

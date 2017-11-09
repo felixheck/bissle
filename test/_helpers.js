@@ -1,9 +1,9 @@
-const Hapi = require('hapi')
+const hapi = require('hapi')
 const akaya = require('akaya')
 const qs = require('qs')
 const url = require('url')
 const plugin = require('../src')
-const mockResponse = require('./index.mock')
+const mockResponse = require('./fixtures/index')
 
 /**
  * @type {Object}
@@ -32,19 +32,17 @@ const mockPluginOptions = {
  * @param {Object} pluginOptions The plugin specific options
  * @returns {Object} The needed fixtures
  */
-const setup = (options, pluginOptions) => {
+const setup = async (options, pluginOptions) => {
   pluginOptions = pluginOptions || mockPluginOptions
 
   const key = (options && options.key) || 'result'
   const fixtures = {
-    server: new Hapi.Server(),
+    server: hapi.server({
+      port: 1337,
+      host: 'localhost'
+    }),
     host: 'http://localhost:1337/'
   }
-
-  fixtures.server.connection({
-    port: 1337,
-    host: 'localhost'
-  })
 
   fixtures.server.route([
     {
@@ -52,8 +50,8 @@ const setup = (options, pluginOptions) => {
       path: '/',
       config: {
         id: 'foo',
-        handler: function (request, reply) {
-          return reply.bissle({ [key]: Array.from(mockResponse) }, options)
+        handler (req, h) {
+          return h.bissle({ [key]: Array.from(mockResponse) }, options)
         }
       }
     },
@@ -61,19 +59,17 @@ const setup = (options, pluginOptions) => {
       method: 'GET',
       path: '/page',
       config: {
-        handler: function (request, reply) {
-          return reply.bissle({ [key]: Array.from(mockResponse) }, options)
+        handler (req, h) {
+          return h.bissle({ [key]: Array.from(mockResponse) }, options)
         }
       }
     }
   ])
 
-  fixtures.server.register([{
-    register: akaya
-  }, {
-    register: plugin,
+  await fixtures.server.register([akaya, {
+    plugin,
     options: pluginOptions
-  }], () => {})
+  }])
 
   return fixtures
 }
