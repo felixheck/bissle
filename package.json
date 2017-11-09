@@ -34,23 +34,23 @@
   },
   "devDependencies": {
     "ava": "^0.21.0",
-    "hapi": "^17.0.0-rc8",
+    "hapi": "^17.0.1",
     "nyc": "^11.0.3",
     "standard": "^10.0.2"
   },
   "dependencies": {
-    "akaya": "github:felixheck/akaya#release/3.0.0",
+    "akaya": "^3.0.0",
     "boom": "^6.0.0",
     "joi": "^13.0.1",
     "lodash": "^4.17.4",
     "qs": "^6.5.1"
   },
   "peerDependencies": {
-    "akaya": ">= 3.0.0",
-    "hapi": ">= 17.0.0"
+    "akaya": "^3.0.0",
+    "hapi": "^17.0.0"
   },
   "engines": {
-    "node": ">=8.0.0",
-    "npm": ">=5.0.0"
+    "node": "^8.0.0",
+    "npm": "^5.0.0"
   }
 }

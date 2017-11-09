@@ -3,7 +3,7 @@ const _ = require('lodash')
 const errors = require('../src/errors')
 const { setup } = require('./_helpers')
 
-test.only('return absolute links', async (t) => {
+test('return absolute links', async (t) => {
   const { host, server } = await setup({}, { absolute: true })
   const { result } = await server.inject('/')
 
