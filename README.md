@@ -16,7 +16,7 @@
 
 This [hapi.js](https://github.com/hapijs/hapi) plugin enables an additional reply interface to paginate a response in a RESTful and [HAL](https://tools.ietf.org/html/draft-kelly-json-hal-06) compliant manner. So the plugin accordingly splices the initial response; extends it with meta information about the count of entries per page, the total count and the current page; adds a link map for HALicious navigation and appends the corresponding `Link` header. It is not a middleware-like plugin, so you are allowed to control the usage explicitly by yourself. Because of this, it works perfectly in combination with HAL plugins like [halacious](https://github.com/bleupen/halacious), as it is shown in the [example](#example) below.
 
-The modules [`standard`][standardjs] and [`ava`][avajs] are used to grant a high quality implementation.<br/>
+The modules [`standard`](https://standardjs.com/) and [`ava`](https://github.com/avajs) are used to grant a high quality implementation.<br/>
 This major release supports just [hapi.js](https://github.com/hapijs/hapi) `>=v17.0.0` and node `>=v8.0.0` — to support older versions please use `v1.2.4`.
 
 **bissle** is the Swabian term for *a little bit*, it should visualize the sense of pagination.
