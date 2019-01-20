@@ -18,7 +18,7 @@ test('return relative links', async (t) => {
 })
 
 test('throw error if plugin specific options invalid', async (t) => {
-  await t.throws(setup({}, { foo: true }), /Error/)
+  await t.throwsAsync(setup({}, { foo: true }), Error)
 })
 
 test('request without query parameters', async (t) => {

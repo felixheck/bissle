@@ -19,6 +19,13 @@ This [hapi.js](https://github.com/hapijs/hapi) plugin enables an additional repl
 The modules [`standard`](https://standardjs.com/) and [`ava`](https://github.com/avajs) are used to grant a high quality implementation.<br/>
 This major release supports just [hapi.js](https://github.com/hapijs/hapi) `>=v17.0.0` and node `>=v8.0.0` — to support older versions please use `v1.2.4`.
 
+#### Compatibility
+| Major Release | [hapi.js](https://github.com/hapijs/hapi) version | node version |
+| --- | --- | --- |
+| `v3` | `>=18` | `>=10` |
+| `v2` | `>=17` | `>=8` |
+| `v1` | `>=13` | `>=6` |
+
 **bissle** is the Swabian term for *a little bit*, it should visualize the sense of pagination.
 
 ## Installation
