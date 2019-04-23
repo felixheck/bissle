@@ -21,9 +21,10 @@ The modules [`standard`](https://standardjs.com/) and [`ava`](https://github.com
 #### Compatibility
 | Major Release | [hapi.js](https://github.com/hapijs/hapi) version | node version |
 | --- | --- | --- |
-| `v3` | `>=18` | `>=8` |
-| `v2` | `>=17` | `>=8` |
-| `v1` | `>=13` | `>=6` |
+| `v3.1` | `>=18.3.1 @hapi/hapi` | `>=8` |
+| `v3` | `>=18 hapi` | `>=8` |
+| `v2` | `>=17 hapi` | `>=8` |
+| `v1` | `>=13 hapi` | `>=6` |
 
 **bissle** is the Swabian term for *a little bit*, it should visualize the sense of pagination.
 
@@ -49,7 +50,7 @@ const akaya = require('akaya');
 #### Create Hapi server
 Afterwards create your **Hapi.js** server if not already done:
 ``` js
-const hapi = require('hapi');
+const hapi = require('@hapi/hapi');
 const server = hapi.server({
   port: 1337,
   host: 'localhost',
@@ -91,11 +92,11 @@ An additional response toolkit for paginated responses.
 The following example demonstrates the usage of **bissle** in combination with **mongoose**, **halacious** and various utilities.
 
 ```js
-const hapi = require('hapi');
+const hapi = require('@hapi/hapi');
 const bissle = require('bissle');
 const halacious = require('halacious');
 const akaya = require('akaya');
-const Boom = require('boom');
+const Boom = require('@hapi/boom');
 const _ = require('lodash');
 const YourModel = require('./models/yourModel');
 

@@ -1,4 +1,4 @@
-const hapi = require('hapi')
+const hapi = require('@hapi/hapi')
 const akaya = require('akaya')
 const qs = require('qs')
 const url = require('url')
