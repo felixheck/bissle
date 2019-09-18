@@ -17,19 +17,19 @@ test('first page has no prev HAL link', (t) => {
   const result = pagination.getLinks('foo', 1, 3, 9, requestObj, aka, options, pluginOptions)
 
   t.truthy(_.has(result, 'first'))
-  t.falsy(_.has(result, 'prev'), false)
-  t.truthy(_.has(result, 'next'), true)
-  t.truthy(_.has(result, 'last'), true)
+  t.falsy(_.has(result, 'prev'))
+  t.truthy(_.has(result, 'next'))
+  t.truthy(_.has(result, 'last'))
 })
 
 test('last page has no next HAL link', (t) => {
   const options = { perPage: 1 }
   const result = pagination.getLinks('foo', 3, 3, 9, requestObj, aka, options, pluginOptions)
 
-  t.truthy(_.has(result, 'first'), true)
-  t.truthy(_.has(result, 'prev'), true)
-  t.falsy(_.has(result, 'next'), false)
-  t.truthy(_.has(result, 'last'), true)
+  t.truthy(_.has(result, 'first'))
+  t.truthy(_.has(result, 'prev'))
+  t.falsy(_.has(result, 'next'))
+  t.truthy(_.has(result, 'last'))
 })
 
 test('middle page has all HAL links', (t) => {

@@ -29,25 +29,25 @@
   "scripts": {
     "start": "npm test -- -w",
     "lint": "standard",
-    "test": "nyc --check-coverage --lines 60 ava --timeout=1m",
+    "test": "nyc --check-coverage --lines 60 ava test/*.spec.js --timeout=1m",
     "coverage": "nyc report --reporter=lcov"
   },
   "devDependencies": {
-    "@hapi/hapi": "^18.3.1",
-    "ava": "^1.4.1",
-    "nyc": "^14.0.0",
-    "standard": "^12.0.1"
+    "@hapi/hapi": "^18.4.0",
+    "ava": "^2.4.0",
+    "nyc": "^14.1.1",
+    "standard": "^14.3.0"
   },
   "dependencies": {
-    "@hapi/boom": "^7.4.2",
-    "@hapi/joi": "^15.0.0",
-    "akaya": "^4.1.0",
-    "lodash": "^4.17.11",
-    "qs": "^6.7.0"
+    "@hapi/boom": "^7.4.3",
+    "@hapi/joi": "^16.1.1",
+    "akaya": "^4.1.1",
+    "lodash": "^4.17.15",
+    "qs": "^6.8.0"
   },
   "peerDependencies": {
     "akaya": "^4.1.0",
-    "@hapi/hapi": "^18.3.1"
+    "@hapi/hapi": "^18.4.0"
   },
   "engines": {
     "node": ">=8",

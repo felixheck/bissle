@@ -122,7 +122,7 @@ test('query is valid | custom values', (t) => {
     per_page: 100
   }
 
-  t.truthy(validate.query(query, options, paramNames), true)
+  t.truthy(validate.query(query, options, paramNames))
   t.is(query.page, 2)
   t.is(query.per_page, 100)
 })

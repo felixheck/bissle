@@ -1,4 +1,5 @@
 const test = require('ava')
+const joi = require('@hapi/joi')
 const _ = require('lodash')
 const errors = require('../src/errors')
 const { setup } = require('./_helpers')
@@ -142,8 +143,8 @@ test('append all passed query parameters', async (t) => {
   const { server } = await setup()
   const { result } = await server.inject('/?page=4&per_page=3&fields=foo')
 
-  t.is(result._links.self.href, `/?page=4&per_page=3&fields=foo`)
-  t.is(result._links.first.href, `/?per_page=3&fields=foo`)
+  t.is(result._links.self.href, '/?page=4&per_page=3&fields=foo')
+  t.is(result._links.first.href, '/?per_page=3&fields=foo')
 })
 
 test('append all passed query parameters | custom param names', async (t) => {
@@ -166,7 +167,7 @@ test('exposed query schema', async (t) => {
   const { server } = await setup()
 
   t.deepEqual(_.keys(server.plugins.bissle.scheme).sort(), ['page', 'per_page', 'pluginOptions'])
-  t.truthy(server.plugins.bissle.scheme.page.isJoi)
+  t.truthy(joi.isSchema(server.plugins.bissle.scheme.page))
 })
 
 test('exposed query schema | custom param names', async (t) => {
@@ -180,5 +181,5 @@ test('exposed query schema | custom param names', async (t) => {
   })
 
   t.deepEqual(_.keys(server.plugins.bissle.scheme).sort(), ['currentPage', 'pageSize', 'pluginOptions'])
-  t.truthy(server.plugins.bissle.scheme.currentPage.isJoi)
+  t.truthy(joi.isSchema(server.plugins.bissle.scheme.currentPage))
 })

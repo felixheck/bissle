@@ -1,6 +1,6 @@
 const qs = require('qs')
 
-const akaMock = (id, query) => `/?${qs.stringify(query)}`.replace(/\?$/, '')
+const akaMock = (id, query) => `https://localhost:3000/?${qs.stringify(query)}`.replace(/\?$/, '')
 
 const requestObjMock = {
   headers: {},

@@ -74,8 +74,8 @@ const setup = async (options, pluginOptions) => {
   return fixtures
 }
 
-const getQueries = path => qs.parse(url.parse(path).query).query
-const getParams = path => qs.parse(url.parse(path).query).params
+const getQueries = path => qs.parse((new url.URL(decodeURIComponent(path))).search.slice(1)).query
+const getParams = path => qs.parse((new url.URL(decodeURIComponent(path))).search.slice(1)).params
 
 module.exports = {
   setup,

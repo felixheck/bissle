@@ -10,8 +10,8 @@ test('do not parse link header', (t) => {
 
 test('parse the related link header', (t) => {
   const links = {
-    'prev': { href: 'foo' },
-    'last': { href: 'bar' }
+    prev: { href: 'foo' },
+    last: { href: 'bar' }
   }
 
   const splitLinks = _.map(header.getLink(links).split(','), _.trim)
