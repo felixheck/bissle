@@ -130,7 +130,7 @@ server.route({
 (async () => {
   try {
     await server.register([akaya, halacious, {
-      register: bissle,
+      plugin: bissle,
       options: { absolute: false }
     }]);
     await server.start();
