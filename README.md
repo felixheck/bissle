@@ -1,5 +1,5 @@
 # bissle
-#### Minimalist HALicious pagination reply interface for [hapi.js](https://github.com/hapijs/hapi)
+#### Minimalist HALicious pagination response toolkit interface for [hapi.js](https://github.com/hapijs/hapi)
 
 [![Travis](https://img.shields.io/travis/felixheck/bissle.svg)](https://travis-ci.org/felixheck/bissle/builds/) ![node](https://img.shields.io/node/v/bissle.svg) ![npm](https://img.shields.io/npm/dt/bissle.svg) [![standard](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/) ![npm](https://img.shields.io/npm/l/bissle.svg)
 ---
@@ -14,7 +14,7 @@
 
 ## Introduction
 
-This [hapi.js](https://github.com/hapijs/hapi) plugin enables an additional reply interface to paginate a response in a RESTful and [HAL](https://tools.ietf.org/html/draft-kelly-json-hal-06) compliant manner. So the plugin accordingly splices the initial response; extends it with meta information about the count of entries per page, the total count and the current page; adds a link map for HALicious navigation and appends the corresponding `Link` header. It is not a middleware-like plugin, so you are allowed to control the usage explicitly by yourself. Because of this, it works perfectly in combination with HAL plugins like [halacious](https://github.com/bleupen/halacious), as it is shown in the [example](#example) below.
+This [hapi.js](https://github.com/hapijs/hapi) plugin enables an additional [response toolkit](https://hapi.dev/api/?v=18.4.0#response-toolkit) interface to paginate a response in a RESTful and [HAL](https://tools.ietf.org/html/draft-kelly-json-hal-06) compliant manner. So the plugin accordingly splices the initial response; extends it with meta information about the count of entries per page, the total count and the current page; adds a link map for HALicious navigation and appends the corresponding `Link` header. It is not a middleware-like plugin, so you are allowed to control the usage explicitly by yourself. Because of this, it works perfectly in combination with HAL plugins like [halacious](https://github.com/bleupen/halacious), as it is shown in the [example](#example) below.
 
 The modules [`standard`](https://standardjs.com/) and [`ava`](https://github.com/avajs) are used to grant a high quality implementation.
 
@@ -79,9 +79,9 @@ While the plugin registration it is possible to pass a [plugin specific options 
     - `page {string}` - Parameter name for describing the current page <br>Default: `page`
     - `total {string}` - Parameter name for describing the total item count <br>Default: `total`
 
-#### `reply.bissle(response, [options])`
+#### `toolkit.bissle(response, [options])`
 
-An additional response toolkit for paginated responses.
+An additional [response toolkit](https://hapi.dev/api/?v=18.4.0#response-toolkit) for paginated responses.
 - `response {Object}` - The result to be decorated and replied.
 - `options {Object}` - The custom default values.
   - `key {string}` - The access key of `response` to get the result to be paginated.<br>Default: `'result'`.
