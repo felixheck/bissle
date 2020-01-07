@@ -21,6 +21,7 @@ The modules [`standard`](https://standardjs.com/) and [`ava`](https://github.com
 #### Compatibility
 | Major Release | [hapi.js](https://github.com/hapijs/hapi) version | node version |
 | --- | --- | --- |
+| `v4` | `>=18.4 @hapi/hapi` | `>=12` |
 | `v3.1` | `>=18.3.1 @hapi/hapi` | `>=8` |
 | `v3` | `>=18 hapi` | `>=8` |
 | `v2` | `>=17 hapi` | `>=8` |
