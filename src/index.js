@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi')
+const Joi = require('joi')
 const Boom = require('@hapi/boom')
 const errors = require('./errors')
 const validate = require('./validate')

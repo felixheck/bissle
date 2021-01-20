@@ -1,5 +1,5 @@
 const test = require('ava')
-const joi = require('@hapi/joi')
+const joi = require('joi')
 const _ = require('lodash')
 const errors = require('../src/errors')
 const { setup } = require('./_helpers')
@@ -19,7 +19,7 @@ test('return relative links', async (t) => {
 })
 
 test('throw error if plugin specific options invalid', async (t) => {
-  await t.throwsAsync(setup({}, { foo: true }), Error)
+  await t.throwsAsync(setup({}, { foo: true }))
 })
 
 test('request without query parameters', async (t) => {
