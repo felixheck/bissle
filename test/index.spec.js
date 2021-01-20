@@ -187,7 +187,7 @@ test('exposed query schema | custom param names', async (t) => {
 test('make use of supplied host', async (t) => {
   const { server } = await setup(null, {
     host: 'example.com',
-    absolute: true,
+    absolute: true
   })
   const { result } = await server.inject('/?page=4&per_page=3&fields=foo')
 
