@@ -183,3 +183,14 @@ test('exposed query schema | custom param names', async (t) => {
   t.deepEqual(_.keys(server.plugins.bissle.scheme).sort(), ['currentPage', 'pageSize', 'pluginOptions'])
   t.truthy(joi.isSchema(server.plugins.bissle.scheme.currentPage))
 })
+
+test('make use of supplied host', async (t) => {
+  const { server } = await setup(null, {
+    host: 'example.com',
+    absolute: true,
+  })
+  const { result } = await server.inject('/?page=4&per_page=3&fields=foo')
+
+  t.is(result._links.self.href, 'http://example.com/?page=4&per_page=3&fields=foo')
+  t.is(result._links.first.href, 'http://example.com/?per_page=3&fields=foo')
+})

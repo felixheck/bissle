@@ -21,6 +21,7 @@ const internals = {
   },
   scheme: {
     pluginOptions: Joi.object({
+      host: Joi.string(),
       absolute: Joi.boolean().default(false),
       paramNames: Joi
         .object({
