@@ -74,6 +74,7 @@ If you use **Joi** for request validation, simply add the parameters to the quer
 #### Plugin Options
 While the plugin registration it is possible to pass a [plugin specific options object](http://hapijs.com/api#serverregisterplugins-options-callback):
 - `options {Object}` - The plugin specific options object.
+  - `host {string}` - The host to use in the URL<br>Default: `undefined` (utilizes `request.info.host`)
   - `absolute {boolean}` - If the pagination links (not the `Link` header) should be absolute or not.<br>Default: `false`.
   - `paramNames {Object}` - Config object for overriding default parameter names output in the response
     - `perPage {string}` - Parameter name for describing the page limit <br>Default: `per_page`

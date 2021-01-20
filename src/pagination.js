@@ -49,7 +49,7 @@ function getRequestUrl (request, pluginOptions) {
   let requestUrl = request.url.pathname
 
   if (pluginOptions.absolute) {
-    requestUrl = `${protocol}://${request.info.host}${requestUrl}`
+    requestUrl = `${protocol}://${pluginOptions.host || request.info.host}${requestUrl}`
   }
 
   return requestUrl
@@ -95,9 +95,10 @@ function getSelfLink (page, perPage, request, options, pluginOptions) {
  * @param {Function} aka The request bound akaya function for link building
  * @param {boolean} absolute If the link should be an absolute one
  * @param {Object} paramNames The names of the query params
+ * @param {Object} host The host to use in the URL (akaya defaults to match the current request)
  * @returns {Function} The predefined pagination link generator
  */
-function getPaginationLink (id, perPage, options, requestObj, aka, absolute, paramNames) {
+function getPaginationLink (id, perPage, options, requestObj, aka, absolute, paramNames, host) {
   perPage = minimizeQueryParameter(perPage, options.perPage)
 
   return (page) => {
@@ -109,7 +110,7 @@ function getPaginationLink (id, perPage, options, requestObj, aka, absolute, par
         [paramNames.perPage]: perPage
       }),
       params: requestObj.params
-    }, { rel: !absolute })
+    }, { rel: !absolute, host })
   }
 }
 
@@ -132,7 +133,7 @@ function getPaginationLink (id, perPage, options, requestObj, aka, absolute, par
  */
 function getPaginationLinks (id, page, perPage, total, requestObj, aka, options, pluginOptions) {
   const getLink = getPaginationLink(
-    id, perPage, options, requestObj, aka, pluginOptions.absolute, pluginOptions.paramNames
+    id, perPage, options, requestObj, aka, pluginOptions.absolute, pluginOptions.paramNames, pluginOptions.host
   )
   const lastPage = Math.ceil(total / perPage)
   const links = {}
