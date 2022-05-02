@@ -39,7 +39,7 @@
     "standard": "^16.0.3"
   },
   "dependencies": {
-    "@hapi/boom": "^9.0.0",
+    "@hapi/boom": "^10.0.0",
     "joi": "^17.0.0",
     "akaya": "^5.0.0",
     "lodash": "^4.17.15",
